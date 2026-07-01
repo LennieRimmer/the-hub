@@ -1,0 +1,87 @@
+{
+  "application": {
+    "name": "The Hub",
+    "shortDescription": "DBA planning and operations dashboard",
+    "description": "A modern APEX console for DBA project planning, milestones, leave, on-call coverage, meetings, patch calendars, risk, and dependencies.",
+    "schema": "THEHUB",
+    "authentication": "APEX",
+    "navigation": "SIDE",
+    "themeStyle": "Vita",
+    "iconClass": "fa-table-dashboard",
+    "iconColorHex": "#2F6FED",
+    "version": "0.1.0",
+    "features": [
+      "activity-report",
+      "access-control",
+      "feedback"
+    ]
+  },
+  "pages": [
+    {
+      "number": 1,
+      "name": "Dashboard",
+      "type": "dashboard",
+      "purpose": "Planning command center with period controls, KPI cards, milestone focus, meetings, and leave summary."
+    },
+    {
+      "number": 2,
+      "name": "Projects",
+      "type": "interactive-report-form",
+      "table": "PROJECTS"
+    },
+    {
+      "number": 3,
+      "name": "Milestones",
+      "type": "interactive-report-form",
+      "table": "MILESTONES"
+    },
+    {
+      "number": 4,
+      "name": "Leave Calendar",
+      "type": "calendar",
+      "table": "LEAVE"
+    },
+    {
+      "number": 5,
+      "name": "On-Call Calendar",
+      "type": "calendar",
+      "table": "ON_CALL"
+    },
+    {
+      "number": 6,
+      "name": "Meetings",
+      "type": "calendar-report",
+      "table": "MEETINGS"
+    },
+    {
+      "number": 7,
+      "name": "Patch Calendar",
+      "type": "report",
+      "table": "ORACLE_SECURITY_PATCHES"
+    },
+    {
+      "number": 8,
+      "name": "Risk Register",
+      "type": "interactive-report-form",
+      "table": "RISK_REGISTER"
+    },
+    {
+      "number": 9,
+      "name": "Dependencies",
+      "type": "interactive-report-form",
+      "table": "DEPENDENCIES"
+    }
+  ],
+  "visualDesign": {
+    "tone": "modern operations console",
+    "density": "compact and scan-friendly",
+    "navigation": "side",
+    "statusColors": {
+      "danger": "conflicts, cancelled items, high risk",
+      "success": "healthy coverage and approved/completed state",
+      "info": "planned work and neutral events",
+      "warning": "tentative or watch states"
+    }
+  }
+}
+

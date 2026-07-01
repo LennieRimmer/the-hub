@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+
+# Local editor/runtime state
+.vscode/*
+!.vscode/settings.json
+
+# Large local installers or ad hoc bundles
+*.vsix
+The_Hub_Files.zip
+
+# OS/cache noise
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
