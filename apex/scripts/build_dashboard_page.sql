@@ -100,10 +100,10 @@ begin
 }
 .hub-window-controls {
   display: grid;
-  grid-template-columns: minmax(10rem, 13rem) minmax(10rem, 13rem) auto;
+  grid-template-columns: minmax(9rem, 11rem) 2.4rem minmax(10rem, 13rem) minmax(10rem, 13rem) 2.4rem auto;
   gap: 8px;
   align-items: end;
-  max-width: 34rem;
+  max-width: 52rem;
   margin-top: 12px;
 }
 .hub-window-controls label {
@@ -121,6 +121,14 @@ begin
   color: #111827;
   background: #ffffff;
 }
+.hub-window-controls select {
+  min-height: 36px;
+  border: 1px solid #cbd5df;
+  border-radius: 4px;
+  padding: 0 8px;
+  color: #111827;
+  background: #ffffff;
+}
 .hub-window-controls button {
   min-height: 36px;
   border: 1px solid #1f5eff;
@@ -129,6 +137,21 @@ begin
   color: #ffffff;
   background: #1f5eff;
   font-weight: 700;
+}
+.hub-window-controls button:disabled {
+  border-color: #cbd5df;
+  background: #eef2f6;
+  color: #8a95a3;
+}
+.hub-step-button {
+  width: 2.4rem;
+  padding: 0;
+}
+.hub-step-back::before {
+  content: "<";
+}
+.hub-step-forward::before {
+  content: ">";
 }
 .hub-kpi-grid {
   display: grid;
@@ -266,8 +289,11 @@ begin
       </div>
       <p>DBA planning command center for projects, milestones, coverage, meetings, and Oracle patch windows.</p>
       <div class="hub-window-controls">
+        <label>Frame <select id="hubPeriodFrame"><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option><option value="quarterly" selected>Quarterly</option><option value="yearly">Yearly</option></select></label>
+        <button id="hubPeriodPrev" class="hub-step-button hub-step-back" type="button" aria-label="Previous period"></button>
         <label>Start <input id="hubPeriodStart" type="date"></label>
         <label>End <input id="hubPeriodEnd" type="date"></label>
+        <button id="hubPeriodNext" class="hub-step-button hub-step-forward" type="button" aria-label="Next period"></button>
         <button id="hubApplyWindow" type="button">Apply</button>
       </div>
     </div>
@@ -298,19 +324,70 @@ begin
 (function () {
   const startInput = document.getElementById('hubPeriodStart');
   const endInput = document.getElementById('hubPeriodEnd');
+  const frameInput = document.getElementById('hubPeriodFrame');
+  const prevButton = document.getElementById('hubPeriodPrev');
+  const nextButton = document.getElementById('hubPeriodNext');
   const applyButton = document.getElementById('hubApplyWindow');
   const text = (id, value) => { document.getElementById(id).textContent = value; };
   const esc = (value) => String(value == null ? '' : value).replace(/[<>"']/g, function (c) {
     return {'<':'\u0026lt;','>':'\u0026gt;','"':'\u0026quot;',"'":'\u0026#39;'}[c];
   });
   const iso = (date) => date.toISOString().slice(0, 10);
-  const today = new Date();
-  const start = new Date(today.getFullYear(), today.getMonth(), 1);
-  const end = new Date(today.getFullYear(), today.getMonth() + 3, 0);
   const amp = String.fromCharCode(38);
 
-  startInput.value = iso(start);
-  endInput.value = iso(end);
+  function addDays(date, days) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+  }
+
+  function addMonths(date, months) {
+    return new Date(date.getFullYear(), date.getMonth() + months, date.getDate());
+  }
+
+  function setWindow(frame, anchor) {
+    const base = anchor || new Date();
+    let start;
+    let end;
+    if (frame === 'weekly') {
+      start = addDays(base, -base.getDay());
+      end = addDays(start, 6);
+    } else if (frame === 'biweekly') {
+      start = addDays(base, -base.getDay());
+      end = addDays(start, 13);
+    } else if (frame === 'monthly') {
+      start = new Date(base.getFullYear(), base.getMonth(), 1);
+      end = new Date(base.getFullYear(), base.getMonth() + 1, 0);
+    } else if (frame === 'yearly') {
+      start = new Date(base.getFullYear(), 0, 1);
+      end = new Date(base.getFullYear(), 11, 31);
+    } else {
+      const qMonth = Math.floor(base.getMonth() / 3) * 3;
+      start = new Date(base.getFullYear(), qMonth, 1);
+      end = new Date(base.getFullYear(), qMonth + 3, 0);
+    }
+    startInput.value = iso(start);
+    endInput.value = iso(end);
+  }
+
+  function stepWindow(direction) {
+    const frame = frameInput.value;
+    const current = new Date(startInput.value + 'T00:00:00');
+    let next;
+    if (frame === 'weekly') {
+      next = addDays(current, direction * 7);
+    } else if (frame === 'biweekly') {
+      next = addDays(current, direction * 14);
+    } else if (frame === 'monthly') {
+      next = addMonths(current, direction);
+    } else if (frame === 'yearly') {
+      next = addMonths(current, direction * 12);
+    } else {
+      next = addMonths(current, direction * 3);
+    }
+    setWindow(frame, next);
+    applyButton.click();
+  }
+
+  setWindow(frameInput.value, new Date());
 
   function renderMilestones(rows) {
     const list = document.getElementById('hubMilestoneList');
@@ -348,6 +425,19 @@ begin
     loadDashboard().catch(function (error) {
       document.getElementById('hubMilestoneList').innerHTML = '<div class="hub-state">' + esc(error.message) + '</div>';
     });
+  });
+
+  frameInput.addEventListener('change', function () {
+    setWindow(frameInput.value, new Date(startInput.value + 'T00:00:00'));
+    applyButton.click();
+  });
+
+  prevButton.addEventListener('click', function () {
+    stepWindow(-1);
+  });
+
+  nextButton.addEventListener('click', function () {
+    stepWindow(1);
   });
 
   loadDashboard().catch(function (error) {

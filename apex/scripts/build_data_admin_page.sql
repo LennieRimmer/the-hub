@@ -53,6 +53,9 @@ function hubBootDataAdmin() {
   const help = document.getElementById('hubTableHelp');
   const newButton = document.getElementById('hubNew');
   const refreshButton = document.getElementById('hubRefresh');
+  const filterInput = document.getElementById('hubGridFilter');
+  const sortSelect = document.getElementById('hubGridSort');
+  const sortDirection = document.getElementById('hubGridSortDirection');
   const entity = String.fromCharCode(38);
   const esc = (v) => String(v == null ? '' : v).replace(/[<>"']/g, c => ({
     '<': entity + 'lt;',
@@ -72,6 +75,7 @@ function hubBootDataAdmin() {
   const display = (value) => value == null ? '' : String(value).slice(0, 120);
   const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
   const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
+  const isLongText = (col) => col.name.indexOf('NOTES') >= 0 || col.name.indexOf('GUIDANCE') >= 0 || col.name.indexOf('MITIGATION') >= 0 || col.name.indexOf('PURPOSE') >= 0 || col.name.indexOf('APPLICABILITY') >= 0 || col.name.indexOf('DETAILS') >= 0;
 
   if (!nav || !gridWrap || !title || !help) {
     return;
@@ -98,12 +102,24 @@ function hubBootDataAdmin() {
   function gridInput(row, col, rowIndex) {
     const value = row[col.name] == null ? '' : String(row[col.name]);
     const shown = col.type === 'DATE' ? value.slice(0, 10) : value;
-    const readonly = col.generated ? ' readonly' : '';
+    const readonly = col.generated ? ' readonly' : (col.pk ? (shown !== '' ? ' readonly' : '') : '');
+    if (isLongText(col)) {
+      return '<textarea class="hub-grid-input is-wrap" data-row="' + rowIndex + '" data-col="' + esc(col.name) + '"' + readonly + '>' + esc(shown) + '</textarea>';
+    }
     return '<input class="hub-grid-input" data-row="' + rowIndex + '" data-col="' + esc(col.name) + '" type="' + columnInputType(col) + '" value="' + esc(shown) + '"' + readonly + '>';
   }
 
-  async function saveGridRow(rowIndex) {
+  function syncGridRow(rowIndex) {
     const row = state.rows[rowIndex];
+    if (!row) return null;
+    gridWrap.querySelectorAll('.hub-grid-input[data-row="' + rowIndex + '"]').forEach(input => {
+      row[input.dataset.col] = input.value;
+    });
+    return row;
+  }
+
+  async function saveGridRow(rowIndex) {
+    const row = syncGridRow(rowIndex);
     if (!state.active || !row) return;
     await call('save', {x02: state.active.key, p_clob_01: JSON.stringify(row)});
     await loadRows();
@@ -133,15 +149,50 @@ function hubBootDataAdmin() {
     renderGrid();
   }
 
+  function filteredRows() {
+    const term = filterInput ? filterInput.value.trim().toLowerCase() : '';
+    const sortCol = sortSelect ? sortSelect.value : '';
+    const dir = sortDirection ? sortDirection.value : 'asc';
+    let rows = state.rows.map((row, index) => ({ row, index }));
+    if (term) {
+      rows = rows.filter(item => Object.keys(item.row).some(key => String(item.row[key] == null ? '' : item.row[key]).toLowerCase().indexOf(term) >= 0));
+    }
+    if (sortCol) {
+      rows.sort((a, b) => {
+        const av = a.row[sortCol] == null ? '' : String(a.row[sortCol]).toLowerCase();
+        const bv = b.row[sortCol] == null ? '' : String(b.row[sortCol]).toLowerCase();
+        if (av === bv) return 0;
+        return (av > bv ? 1 : -1) * (dir === 'desc' ? -1 : 1);
+      });
+    }
+    return rows;
+  }
+
+  function updateGridControls() {
+    if (!state.active) return;
+    if (sortSelect) {
+      const current = sortSelect.value;
+      sortSelect.innerHTML = '<option value="">Default order</option>' + state.active.columns.map(col => '<option value="' + esc(col.name) + '">' + esc(col.label) + '</option>').join('');
+      if (current) {
+        sortSelect.value = current;
+      }
+    }
+  }
+
   function renderGrid() {
     if (!state.active) return;
     const cols = state.active.columns.slice(0, 8);
+    const visibleRows = filteredRows();
     if (!state.rows.length) {
       gridWrap.innerHTML = '<div class="hub-state">No rows found.</div>';
       return;
     }
+    if (!visibleRows.length) {
+      gridWrap.innerHTML = '<div class="hub-state">No rows match the current filter.</div>';
+      return;
+    }
     gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '<th>Actions</th></tr></thead><tbody>' +
-      state.rows.map((row, i) => '<tr data-index="' + i + '"' + (state.selected === row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(row, c, i) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + i + '">Save</button><button type="button" class="hub-grid-delete" data-row="' + i + '">Delete</button></td></tr>').join('') +
+      visibleRows.map(item => '<tr data-index="' + item.index + '"' + (state.selected === item.row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(item.row, c, item.index) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + item.index + '">Save</button><button type="button" class="hub-grid-delete" data-row="' + item.index + '">Delete</button></td></tr>').join('') +
       '</tbody></table>';
     gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => {
       state.selected = state.rows[Number(tr.dataset.index)];
@@ -191,6 +242,7 @@ function hubBootDataAdmin() {
     }
     title.textContent = state.active.label;
     help.textContent = state.active.group + ' / ' + state.active.table_name;
+    updateGridControls();
     renderNav();
     await loadRows();
   }
@@ -200,6 +252,15 @@ function hubBootDataAdmin() {
   }
   if (refreshButton) {
     refreshButton.addEventListener('click', loadRows);
+  }
+  if (filterInput) {
+    filterInput.addEventListener('input', renderGrid);
+  }
+  if (sortSelect) {
+    sortSelect.addEventListener('change', renderGrid);
+  }
+  if (sortDirection) {
+    sortDirection.addEventListener('change', renderGrid);
   }
   nav.querySelectorAll('button[data-table]').forEach(button => {
     button.addEventListener('click', () => selectTable(button.dataset.table));
@@ -311,6 +372,8 @@ hubBootDataAdmin();
 .hub-actions {
   display: flex;
   gap: 8px;
+  align-items: end;
+  flex-wrap: wrap;
 }
 .hub-actions button {
   min-height: 34px;
@@ -320,6 +383,28 @@ hubBootDataAdmin();
   color: #111827;
   padding: 0 11px;
   font-weight: 800;
+}
+.hub-grid-tools {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(10rem, 14rem) minmax(7rem, 8rem);
+  gap: 8px;
+  min-width: min(100%, 36rem);
+}
+.hub-grid-tools label {
+  display: grid;
+  gap: 4px;
+  color: #52606d;
+  font-size: .72rem;
+  font-weight: 800;
+}
+.hub-grid-tools input,
+.hub-grid-tools select {
+  min-height: 34px;
+  border: 1px solid #cbd5df;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #111827;
+  padding: 0 8px;
 }
 .hub-actions button.is-primary {
   border-color: #1f5eff;
@@ -367,6 +452,12 @@ hubBootDataAdmin();
   color: #111827;
   padding: 4px 6px;
 }
+.hub-grid-input.is-wrap {
+  min-width: 18rem;
+  min-height: 3.9rem;
+  white-space: normal;
+  resize: vertical;
+}
 .hub-grid-input:focus {
   border-color: #1f5eff;
   background: #ffffff;
@@ -404,6 +495,9 @@ hubBootDataAdmin();
   }
   .hub-grid-wrap {
     max-height: none;
+  }
+  .hub-grid-tools {
+    grid-template-columns: 1fr;
   }
 }
 ~'
@@ -469,6 +563,11 @@ hubBootDataAdmin();
         <p class="hub-admin-muted" id="hubTableHelp"></p>
       </div>
       <div class="hub-actions">
+        <div class="hub-grid-tools">
+          <label>Filter <input id="hubGridFilter" type="search" placeholder="Find rows"></label>
+          <label>Sort <select id="hubGridSort"><option value="">Default order</option></select></label>
+          <label>Order <select id="hubGridSortDirection"><option value="asc">Asc</option><option value="desc">Desc</option></select></label>
+        </div>
         <button type="button" id="hubRefresh">Refresh</button>
         <button type="button" class="is-primary" id="hubNew">New</button>
       </div>

@@ -124,7 +124,31 @@ create or replace package body thehub.admin_api as
                  when table_name = 'MEETINGS' and column_name = 'MEETING_ID' then 'Y'
                  when table_name = 'ORACLE_SECURITY_PATCHES' and column_name = 'PATCH_ID' then 'Y'
                  else 'N'
-               end generated_flag
+               end generated_flag,
+               case
+                 when table_name = 'STATUSES' and column_name = 'STATUS_NAME' then 'Y'
+                 when table_name = 'PRIORITIES' and column_name = 'PRIORITY_NAME' then 'Y'
+                 when table_name = 'WORKSTREAMS' and column_name = 'WORKSTREAM_NAME' then 'Y'
+                 when table_name = 'CATEGORIES' and column_name = 'CATEGORY_NAME' then 'Y'
+                 when table_name = 'GOALS' and column_name = 'GOAL_NAME' then 'Y'
+                 when table_name = 'MEETING_STATUSES' and column_name = 'STATUS_NAME' then 'Y'
+                 when table_name = 'MEETING_TYPES' and column_name = 'TYPE_NAME' then 'Y'
+                 when table_name = 'CADENCES' and column_name = 'CADENCE_NAME' then 'Y'
+                 when table_name = 'REPORT_TIMEFRAMES' and column_name = 'TIMEFRAME_NAME' then 'Y'
+                 when table_name = 'TEAM_MEMBERS' and column_name = 'MEMBER_ID' then 'Y'
+                 when table_name = 'PROJECTS' and column_name = 'PROJECT_ID' then 'Y'
+                 when table_name = 'MILESTONES' and column_name = 'MILESTONE_ID' then 'Y'
+                 when table_name = 'LEAVE' and column_name = 'LEAVE_ID' then 'Y'
+                 when table_name = 'ON_CALL' and column_name = 'ON_CALL_ID' then 'Y'
+                 when table_name = 'MEETINGS' and column_name = 'MEETING_ID' then 'Y'
+                 when table_name = 'RISK_REGISTER' and column_name = 'RISK_ID' then 'Y'
+                 when table_name = 'DEPENDENCIES' and column_name = 'DEPENDENCY_ID' then 'Y'
+                 when table_name = 'ORACLE_RU_CALENDAR' and column_name = 'RU' then 'Y'
+                 when table_name = 'ORACLE_SECURITY_PATCHES' and column_name = 'PATCH_ID' then 'Y'
+                 when table_name = 'HOLIDAYS' and column_name = 'HOLIDAY_DATE' then 'Y'
+                 when table_name = 'HOLIDAY_NOTES' and column_name = 'NOTE_KEY' then 'Y'
+                 else 'N'
+               end pk_flag
           from all_tab_columns
          where owner = 'THEHUB'
            and table_name = t.table_name
@@ -136,6 +160,7 @@ create or replace package body thehub.admin_api as
         apex_json.write('type', c.data_type);
         apex_json.write('required', c.nullable = 'N' and c.generated_flag = 'N');
         apex_json.write('generated', c.generated_flag = 'Y');
+        apex_json.write('pk', c.pk_flag = 'Y');
         apex_json.close_object;
       end loop;
       apex_json.close_array;
