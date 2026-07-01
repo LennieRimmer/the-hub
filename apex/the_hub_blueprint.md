@@ -18,10 +18,13 @@ After this bootstrap, changes should be driven from source-controlled artifacts 
 - `apex/scripts/export_app_100_apexlang_zip.sh`: exports app `100` into the canonical ZIP and project directory.
 - `apex/scripts/export_app_100_liquibase.sh`: exports app `100` through container SQLcl 26.1.1 as an APEX Liquibase package and validates it.
 - `apex/scripts/save_blueprint_seed.sql`: saves the blueprint seed into the APEX blueprint repository.
+- `apex/scripts/install_app_logo.sql`: installs the branded logo and derived app icon files as application static files.
+- `apex/scripts/install_admin_api.sql`: installs the whitelisted schema package used by the authenticated Data Admin AJAX callback.
+- `apex/scripts/build_data_admin_page.sql`: builds the custom Data Admin page and navigation entry.
 
 The GUI remains acceptable for first-contact app setup, theme style inspection, and visual checks. Routine work should prefer APEXLANG exports, source-controlled edits, and a validation/import gate through SQL Developer Extension or a SQLcl/APEX Developer Tools build that supports APEXLANG validation and import.
 
-Do not use low-level `wwv_flow_imp_page` scripts against app `100` for normal feature work. The first direct metadata attempt left the app in a state where APEXLANG export failed, so Page 1 and later pages should be changed through importable APEXLANG artifacts.
+Low-level APEX metadata scripts are allowed only when they stay export-safe: static page shells, standard static files, navigation entries, and page callbacks. Test metadata-changing scripts on disposable app `101` first, verify APEXLANG export, then apply the same script to app `100`. Avoid dynamic PL/SQL regions in app metadata; the first direct dynamic-region attempt left a disposable app in a state where APEXLANG export failed.
 
 ## Information Architecture
 
@@ -39,6 +42,7 @@ Status: implemented as the first dashboard increment. Page 1 uses export-safe st
   - Upcoming milestone focus list loaded from ORDS.
   - Planning signal panel for the next patch marker.
 - Data sources: `projects`, `milestones`, `leave`, `on_call`, `meetings`, `team_members`.
+- Brand: uses `#APP_FILES#brand/the-hub-logo.png` as a compact page mark and a low-opacity backdrop accent.
 
 Page 2: Projects
 
@@ -111,10 +115,17 @@ Page 12: Goal Traceability
 - Purpose: executive trace from goals to projects and milestone dates.
 - Source: `v_goal_traceability`.
 
-Page 13: Admin
+Page 20: Data Admin
 
-- Purpose: maintain lookup values without editing raw tables directly.
-- Sources: `statuses`, `priorities`, `workstreams`, `categories`, `goals`, `meeting_statuses`, `meeting_types`, `cadences`, `report_timeframes`.
+Status: implemented as a custom export-safe APEX page with an authenticated `ON_DEMAND` AJAX callback.
+
+- Purpose: maintain operational data and lookup values without using Builder or raw table edits.
+- Pattern: static APEX page shell plus `apex.server.process('THEHUB_ADMIN_API', ...)`.
+- Server package: `THEHUB.ADMIN_API`, installed by `apex/scripts/install_admin_api.sql`.
+- Lookup sources: `statuses`, `priorities`, `workstreams`, `categories`, `goals`, `meeting_statuses`, `meeting_types`, `cadences`, `report_timeframes`.
+- Operational sources: `team_members`, `projects`, `milestones`, `leave`, `on_call`, `meetings`, `risk_register`, `dependencies`.
+- Reference sources: `oracle_ru_calendar`, `oracle_security_patches`, `holidays`, `holiday_notes`.
+- Safety: table access is hard-whitelisted in PL/SQL, generated keys are treated as database-owned, and save/delete calls run inside the authenticated APEX page session instead of public ORDS CRUD endpoints.
 
 ## Visual Direction
 
@@ -134,6 +145,7 @@ The app should use Universal Theme, but with a composed visual layer:
   - Tables should prioritize readable headings, useful default sort, and saved public reports.
   - Calendars should use meaningful CSS classes, not generic color noise.
   - Forms should use LOVs for controlled values and date pickers for dates.
+  - The Hub logo should be used as a clear brand mark, login/app icon, or very subtle watermark. Do not use it as a full-strength dashboard background because the text and linework compete with operational data.
 
 ## Data Quality Rules
 
@@ -165,6 +177,8 @@ Current verification notes:
 - Container SQLcl 26.1.1 is available at `/opt/oracle/product/26ai/dbhomeFree/sqlcl/bin/sql`.
 - Container SQLcl generated and validated `apex/exports/thehub_app_100_liquibase/apex_install.xml`.
 - Host SQLcl versions tested can export APEXLANG but do not expose `apex validate -input` or `apex import -input`.
+- App `101` is the disposable validation target for metadata-changing scripts before app `100`.
+- Page `20` Data Admin exports as APEXLANG after adding the authenticated `ON_DEMAND` callback.
 
 Runtime URL:
 

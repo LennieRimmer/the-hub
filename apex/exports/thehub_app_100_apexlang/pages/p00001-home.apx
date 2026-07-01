@@ -19,6 +19,8 @@ page 1 (
               color: #111827;
             }
             .hub-hero-panel {
+              position: relative;
+              overflow: hidden;
               display: grid;
               grid-template-columns: minmax(0, 1fr) auto;
               gap: 16px;
@@ -28,6 +30,32 @@ page 1 (
               background: #ffffff;
               padding: 18px 20px;
               box-shadow: 0 8px 20px rgba(20, 35, 50, 0.08);
+            }
+            .hub-hero-panel::after {
+              content: "";
+              position: absolute;
+              inset: -42px -24px auto auto;
+              width: 210px;
+              height: 210px;
+              background: url("#APP_FILES#brand/the-hub-logo.png") center / contain no-repeat;
+              opacity: .075;
+              pointer-events: none;
+            }
+            .hub-hero-copy,
+            .hub-window-controls {
+              position: relative;
+              z-index: 1;
+            }
+            .hub-brand-line {
+              display: flex;
+              gap: 12px;
+              align-items: center;
+            }
+            .hub-brand-mark {
+              width: 54px;
+              height: 54px;
+              object-fit: contain;
+              flex: 0 0 auto;
             }
             .hub-hero-panel h1 {
               margin: 0;
@@ -168,6 +196,20 @@ page 1 (
             .hub-state {
               color: #69737d;
             }
+            /* mobile */ @media (max-width: 760px) {
+              .hub-hero-panel,
+              .hub-focus-grid,
+              .hub-row {
+                grid-template-columns: 1fr;
+              }
+              .hub-window-controls {
+                grid-template-columns: 1fr;
+              }
+              .hub-brand-mark {
+                width: 46px;
+                height: 46px;
+              }
+            }
             
             ```
     }
@@ -185,8 +227,11 @@ page 1 (
                 
                 <div class="hub-dashboard" id="hubDashboard">
                   <section class="hub-hero-panel">
-                    <div>
-                      <h1>The Hub</h1>
+                    <div class="hub-hero-copy">
+                      <div class="hub-brand-line">
+                        <img class="hub-brand-mark" src="#APP_FILES#brand/the-hub-logo.png" alt="">
+                        <h1>The Hub</h1>
+                      </div>
                       <p>DBA planning command center for projects, milestones, coverage, meetings, and Oracle patch windows.</p>
                     </div>
                     <div class="hub-window-controls">

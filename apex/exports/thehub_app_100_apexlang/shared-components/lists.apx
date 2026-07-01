@@ -62,6 +62,21 @@ list navigation-bar (
 list navigation-menu (
     name: Navigation Menu
 
+    entry data-admin (
+        label: Data Admin
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 20
+        }
+        link {
+            target: {
+                page: 20
+            }
+        }
+    )
+
     entry home (
         label: Home
         icon {
