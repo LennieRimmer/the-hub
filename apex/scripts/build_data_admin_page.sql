@@ -51,12 +51,8 @@ function hubBootDataAdmin() {
   const gridWrap = document.getElementById('hubGridWrap');
   const title = document.getElementById('hubTableTitle');
   const help = document.getElementById('hubTableHelp');
-  const fields = document.getElementById('hubEditorFields');
-  const editor = document.getElementById('hubEditorForm');
   const newButton = document.getElementById('hubNew');
   const refreshButton = document.getElementById('hubRefresh');
-  const deleteButton = document.getElementById('hubDelete');
-  const saveButton = document.getElementById('hubSave');
   const entity = String.fromCharCode(38);
   const esc = (v) => String(v == null ? '' : v).replace(/[<>"']/g, c => ({
     '<': entity + 'lt;',
@@ -77,7 +73,7 @@ function hubBootDataAdmin() {
   const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
   const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
 
-  if (!nav || !gridWrap || !title || !help || !fields || !editor) {
+  if (!nav || !gridWrap || !title || !help) {
     return;
   }
 
@@ -113,6 +109,30 @@ function hubBootDataAdmin() {
     await loadRows();
   }
 
+  async function deleteGridRow(rowIndex) {
+    const row = state.rows[rowIndex];
+    const pk = pkColumn();
+    if (!state.active || !row || !pk) return;
+    if (!row[pk]) {
+      state.rows.splice(rowIndex, 1);
+      renderGrid();
+      return;
+    }
+    await call('delete', {x02: state.active.key, x03: row[pk]});
+    await loadRows();
+  }
+
+  function newRow() {
+    if (!state.active) return;
+    const row = {};
+    state.active.columns.forEach(col => {
+      row[col.name] = '';
+    });
+    state.rows.unshift(row);
+    state.selected = row;
+    renderGrid();
+  }
+
   function renderGrid() {
     if (!state.active) return;
     const cols = state.active.columns.slice(0, 8);
@@ -121,9 +141,12 @@ function hubBootDataAdmin() {
       return;
     }
     gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '<th>Actions</th></tr></thead><tbody>' +
-      state.rows.map((row, i) => '<tr data-index="' + i + '"' + (state.selected === row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(row, c, i) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + i + '">Save</button></td></tr>').join('') +
+      state.rows.map((row, i) => '<tr data-index="' + i + '"' + (state.selected === row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(row, c, i) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + i + '">Save</button><button type="button" class="hub-grid-delete" data-row="' + i + '">Delete</button></td></tr>').join('') +
       '</tbody></table>';
-    gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => editRow(state.rows[Number(tr.dataset.index)])));
+    gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => {
+      state.selected = state.rows[Number(tr.dataset.index)];
+      renderGrid();
+    }));
     gridWrap.querySelectorAll('.hub-grid-input').forEach(input => input.addEventListener('change', function () {
       const row = state.rows[Number(this.dataset.row)];
       if (row) {
@@ -134,29 +157,10 @@ function hubBootDataAdmin() {
       event.stopPropagation();
       saveGridRow(Number(this.dataset.row)).catch(error => fail(gridWrap, error));
     }));
-  }
-
-  function renderEditor(row) {
-    const current = row || {};
-    fields.innerHTML = state.active.columns.map(col => {
-      const value = current[col.name] == null ? '' : String(current[col.name]).slice(0, 10);
-      const readonly = col.generated ? (current[col.name] ? '' : ' readonly') : '';
-      const required = col.required ? ' required' : '';
-      const longText = col.name.indexOf('NOTES') >= 0 || col.name.indexOf('GUIDANCE') >= 0 || col.name.indexOf('MITIGATION') >= 0;
-      const input = longText
-        ? '<textarea name="' + esc(col.name) + '"' + readonly + required + '>' + esc(current[col.name] || '') + '</textarea>'
-        : '<input name="' + esc(col.name) + '" type="' + columnInputType(col) + '" value="' + esc(value) + '"' + readonly + required + '>';
-      return '<div class="hub-field"><label>' + esc(col.label) + '</label>' + input + '</div>';
-    }).join('');
-    if (deleteButton) {
-      deleteButton.disabled = !row;
-    }
-  }
-
-  function editRow(row) {
-    state.selected = row;
-    renderGrid();
-    renderEditor(row);
+    gridWrap.querySelectorAll('.hub-grid-delete').forEach(button => button.addEventListener('click', function (event) {
+      event.stopPropagation();
+      deleteGridRow(Number(this.dataset.row)).catch(error => fail(gridWrap, error));
+    }));
   }
 
   async function loadRows() {
@@ -170,7 +174,6 @@ function hubBootDataAdmin() {
       state.rows = data.rows || [];
       state.selected = null;
       renderGrid();
-      renderEditor(null);
     } catch (error) {
       fail(gridWrap, error);
     }
@@ -192,43 +195,12 @@ function hubBootDataAdmin() {
     await loadRows();
   }
 
-  function payloadFromEditor() {
-    const payload = {};
-    editor.querySelectorAll('input, textarea, select').forEach(item => {
-      if (item.name) {
-        payload[item.name] = item.value;
-      }
-    });
-    return payload;
-  }
-
-  if (saveButton) {
-    saveButton.addEventListener('click', async function () {
-    if (!state.active) return;
-    const payload = payloadFromEditor();
-    await call('save', {x02: state.active.key, p_clob_01: JSON.stringify(payload)});
-    await loadRows();
-    });
-  }
-
   if (newButton) {
-    newButton.addEventListener('click', () => {
-      state.selected = null;
-      renderEditor(null);
-    });
+    newButton.addEventListener('click', newRow);
   }
   if (refreshButton) {
     refreshButton.addEventListener('click', loadRows);
   }
-  if (deleteButton) {
-    deleteButton.addEventListener('click', async function () {
-      if (!state.active || !state.selected) return;
-      const pk = pkColumn();
-      await call('delete', {x02: state.active.key, x03: state.selected[pk]});
-      await loadRows();
-    });
-  }
-
   nav.querySelectorAll('button[data-table]').forEach(button => {
     button.addEventListener('click', () => selectTable(button.dataset.table));
   });
@@ -258,8 +230,7 @@ hubBootDataAdmin();
   color: #111827;
 }
 .hub-admin-sidebar,
-.hub-admin-main,
-.hub-admin-editor {
+.hub-admin-main {
   border: 1px solid #dfe4ea;
   border-radius: 6px;
   background: #ffffff;
@@ -270,9 +241,6 @@ hubBootDataAdmin();
 .hub-admin-main {
   min-width: 0;
   overflow: hidden;
-}
-.hub-admin-editor {
-  padding: 14px;
 }
 .hub-admin-logo {
   width: 58px;
@@ -344,8 +312,7 @@ hubBootDataAdmin();
   display: flex;
   gap: 8px;
 }
-.hub-actions button,
-.hub-admin-editor button {
+.hub-actions button {
   min-height: 34px;
   border: 1px solid #cbd5df;
   border-radius: 4px;
@@ -354,15 +321,10 @@ hubBootDataAdmin();
   padding: 0 11px;
   font-weight: 800;
 }
-.hub-actions button.is-primary,
-.hub-admin-editor button.is-primary {
+.hub-actions button.is-primary {
   border-color: #1f5eff;
   background: #1f5eff;
   color: #ffffff;
-}
-.hub-admin-editor button.is-danger {
-  border-color: #c43a3a;
-  color: #a12b2b;
 }
 .hub-grid-wrap {
   overflow: auto;
@@ -422,39 +384,15 @@ hubBootDataAdmin();
   padding: 0 9px;
   font-weight: 800;
 }
-.hub-editor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: 10px;
-}
-.hub-field {
-  display: grid;
-  gap: 4px;
-}
-.hub-field label {
-  color: #52606d;
-  font-size: .76rem;
-  font-weight: 800;
-}
-.hub-field input,
-.hub-field textarea {
-  width: 100%;
-  min-height: 35px;
-  border: 1px solid #cbd5df;
+.hub-grid-delete {
+  min-height: 30px;
+  border: 1px solid #d8a9a9;
   border-radius: 4px;
-  padding: 7px 8px;
-  color: #111827;
   background: #ffffff;
-}
-.hub-field textarea {
-  min-height: 74px;
-  resize: vertical;
-}
-.hub-editor-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 12px;
+  color: #a12b2b;
+  padding: 0 9px;
+  font-weight: 800;
+  margin-left: 5px;
 }
 .hub-state {
   padding: 16px;
@@ -537,22 +475,6 @@ hubBootDataAdmin();
     </div>
     <div class="hub-grid-wrap" id="hubGridWrap"><div class="hub-state">Choose a table to begin.</div></div>
   </main>
-
-  <section class="hub-admin-editor">
-    <div class="hub-toolbar">
-      <div>
-        <h2>Editor</h2>
-        <p class="hub-admin-muted" id="hubEditorHint">Generated keys are filled by the database.</p>
-      </div>
-    </div>
-    <div id="hubEditorForm">
-      <div class="hub-editor-grid" id="hubEditorFields"></div>
-      <div class="hub-editor-actions">
-        <button type="button" class="is-danger" id="hubDelete">Delete</button>
-        <button type="button" class="is-primary" id="hubSave">Save</button>
-      </div>
-    </div>
-  </section>
 </div>
 
 ~',

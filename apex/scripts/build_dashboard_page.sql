@@ -52,9 +52,9 @@ begin
   position: relative;
   overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 16px;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
   border: 1px solid #dfe4ea;
   border-radius: 6px;
   background: #ffffff;
@@ -100,9 +100,11 @@ begin
 }
 .hub-window-controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  grid-template-columns: minmax(10rem, 13rem) minmax(10rem, 13rem) auto;
   gap: 8px;
   align-items: end;
+  max-width: 34rem;
+  margin-top: 12px;
 }
 .hub-window-controls label {
   display: grid;
@@ -233,7 +235,8 @@ begin
     grid-template-columns: 1fr;
   }
   .hub-window-controls {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
   }
   .hub-brand-mark {
     width: 46px;
@@ -262,11 +265,11 @@ begin
         <h1>The Hub</h1>
       </div>
       <p>DBA planning command center for projects, milestones, coverage, meetings, and Oracle patch windows.</p>
-    </div>
-    <div class="hub-window-controls">
-      <label>Start <input id="hubPeriodStart" type="date"></label>
-      <label>End <input id="hubPeriodEnd" type="date"></label>
-      <button id="hubApplyWindow" type="button">Apply</button>
+      <div class="hub-window-controls">
+        <label>Start <input id="hubPeriodStart" type="date"></label>
+        <label>End <input id="hubPeriodEnd" type="date"></label>
+        <button id="hubApplyWindow" type="button">Apply</button>
+      </div>
     </div>
   </section>
 

@@ -68,6 +68,16 @@ create or replace package body thehub.admin_api as
     owa_util.http_header_close;
   end begin_json;
 
+  procedure write_clob(p_value clob) is
+    l_pos integer := 1;
+    l_len integer := nvl(dbms_lob.getlength(p_value), 0);
+  begin
+    while l_pos <= l_len loop
+      htp.prn(dbms_lob.substr(p_value, 8000, l_pos));
+      l_pos := l_pos + 8000;
+    end loop;
+  end write_clob;
+
   procedure catalog is
   begin
     begin_json;
@@ -146,7 +156,7 @@ create or replace package body thehub.admin_api as
              'from (select * from thehub.' || l_meta.table_name || ' order by ' || l_meta.pk_column || ' fetch first 250 rows only)';
     execute immediate l_sql into l_rows;
     htp.prn('{"rows":');
-    htp.prn(l_rows);
+    write_clob(l_rows);
     htp.prn('}');
   end rows_for;
 
