@@ -75,27 +75,27 @@ create or replace package body thehub.admin_api as
     apex_json.open_array('tables');
 
     for t in (
-      select 'Lookup Values' group_name, 10 sort_group, 'STATUSES' table_name, 'Statuses' label from dual union all
-      select 'Lookup Values', 10, 'PRIORITIES', 'Priorities' from dual union all
-      select 'Lookup Values', 10, 'WORKSTREAMS', 'Workstreams' from dual union all
-      select 'Lookup Values', 10, 'CATEGORIES', 'Categories' from dual union all
-      select 'Lookup Values', 10, 'GOALS', 'Goals' from dual union all
-      select 'Lookup Values', 10, 'MEETING_STATUSES', 'Meeting Statuses' from dual union all
-      select 'Lookup Values', 10, 'MEETING_TYPES', 'Meeting Types' from dual union all
-      select 'Lookup Values', 10, 'CADENCES', 'Cadences' from dual union all
-      select 'Lookup Values', 10, 'REPORT_TIMEFRAMES', 'Report Timeframes' from dual union all
-      select 'Operational Data', 20, 'TEAM_MEMBERS', 'Team Members' from dual union all
-      select 'Operational Data', 20, 'PROJECTS', 'Projects' from dual union all
-      select 'Operational Data', 20, 'MILESTONES', 'Milestones' from dual union all
-      select 'Operational Data', 20, 'LEAVE', 'Leave' from dual union all
-      select 'Operational Data', 20, 'ON_CALL', 'On Call' from dual union all
-      select 'Operational Data', 20, 'MEETINGS', 'Meetings' from dual union all
-      select 'Operational Data', 20, 'RISK_REGISTER', 'Risk Register' from dual union all
-      select 'Operational Data', 20, 'DEPENDENCIES', 'Dependencies' from dual union all
-      select 'Reference Calendars', 30, 'ORACLE_RU_CALENDAR', 'Oracle RU Calendar' from dual union all
-      select 'Reference Calendars', 30, 'ORACLE_SECURITY_PATCHES', 'Security Patches' from dual union all
-      select 'Reference Calendars', 30, 'HOLIDAYS', 'Holidays' from dual union all
-      select 'Reference Calendars', 30, 'HOLIDAY_NOTES', 'Holiday Notes' from dual
+      select 'Operational Data' group_name, 10 sort_group, 'TEAM_MEMBERS' table_name, 'Team Members' label from dual union all
+      select 'Operational Data', 10, 'PROJECTS', 'Projects' from dual union all
+      select 'Operational Data', 10, 'MILESTONES', 'Milestones' from dual union all
+      select 'Operational Data', 10, 'LEAVE', 'Leave' from dual union all
+      select 'Operational Data', 10, 'ON_CALL', 'On Call' from dual union all
+      select 'Operational Data', 10, 'MEETINGS', 'Meetings' from dual union all
+      select 'Operational Data', 10, 'RISK_REGISTER', 'Risk Register' from dual union all
+      select 'Operational Data', 10, 'DEPENDENCIES', 'Dependencies' from dual union all
+      select 'Reference Calendars', 20, 'ORACLE_RU_CALENDAR', 'Oracle RU Calendar' from dual union all
+      select 'Reference Calendars', 20, 'ORACLE_SECURITY_PATCHES', 'Security Patches' from dual union all
+      select 'Reference Calendars', 20, 'HOLIDAYS', 'Holidays' from dual union all
+      select 'Reference Calendars', 20, 'HOLIDAY_NOTES', 'Holiday Notes' from dual union all
+      select 'Lookup Values', 30, 'STATUSES', 'Statuses' from dual union all
+      select 'Lookup Values', 30, 'PRIORITIES', 'Priorities' from dual union all
+      select 'Lookup Values', 30, 'WORKSTREAMS', 'Workstreams' from dual union all
+      select 'Lookup Values', 30, 'CATEGORIES', 'Categories' from dual union all
+      select 'Lookup Values', 30, 'GOALS', 'Goals' from dual union all
+      select 'Lookup Values', 30, 'MEETING_STATUSES', 'Meeting Statuses' from dual union all
+      select 'Lookup Values', 30, 'MEETING_TYPES', 'Meeting Types' from dual union all
+      select 'Lookup Values', 30, 'CADENCES', 'Cadences' from dual union all
+      select 'Lookup Values', 30, 'REPORT_TIMEFRAMES', 'Report Timeframes' from dual
       order by sort_group, label
     ) loop
       apex_json.open_object;

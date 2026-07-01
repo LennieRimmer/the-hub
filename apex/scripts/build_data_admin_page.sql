@@ -92,9 +92,25 @@ function hubBootDataAdmin() {
     const groups = byGroups(state.catalog);
     nav.innerHTML = Object.keys(groups).map(group => (
       '<div class="hub-table-group">' + esc(group) + '</div>' +
-      groups[group].map(table => '<button type="button" class="hub-table-button' + (state.active ? (state.active.key === table.key ? ' is-active' : '') : '') + '" data-table="' + esc(table.key) + '"><span>' + esc(table.label) + '</span></button>').join('')
+      '<div class="hub-table-list">' +
+      groups[group].map(table => '<button type="button" class="hub-table-button' + (state.active ? (state.active.key === table.key ? ' is-active' : '') : '') + '" data-table="' + esc(table.key) + '"><span>' + esc(table.label) + '</span></button>').join('') +
+      '</div>'
     )).join('');
     nav.querySelectorAll('button').forEach(button => button.addEventListener('click', () => selectTable(button.dataset.table)));
+  }
+
+  function gridInput(row, col, rowIndex) {
+    const value = row[col.name] == null ? '' : String(row[col.name]);
+    const shown = col.type === 'DATE' ? value.slice(0, 10) : value;
+    const readonly = col.generated ? ' readonly' : '';
+    return '<input class="hub-grid-input" data-row="' + rowIndex + '" data-col="' + esc(col.name) + '" type="' + columnInputType(col) + '" value="' + esc(shown) + '"' + readonly + '>';
+  }
+
+  async function saveGridRow(rowIndex) {
+    const row = state.rows[rowIndex];
+    if (!state.active || !row) return;
+    await call('save', {x02: state.active.key, p_clob_01: JSON.stringify(row)});
+    await loadRows();
   }
 
   function renderGrid() {
@@ -104,10 +120,20 @@ function hubBootDataAdmin() {
       gridWrap.innerHTML = '<div class="hub-state">No rows found.</div>';
       return;
     }
-    gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '</tr></thead><tbody>' +
-      state.rows.map((row, i) => '<tr data-index="' + i + '"' + (state.selected === row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + esc(display(row[c.name])) + '</td>').join('') + '</tr>').join('') +
+    gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '<th>Actions</th></tr></thead><tbody>' +
+      state.rows.map((row, i) => '<tr data-index="' + i + '"' + (state.selected === row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(row, c, i) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + i + '">Save</button></td></tr>').join('') +
       '</tbody></table>';
     gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => editRow(state.rows[Number(tr.dataset.index)])));
+    gridWrap.querySelectorAll('.hub-grid-input').forEach(input => input.addEventListener('change', function () {
+      const row = state.rows[Number(this.dataset.row)];
+      if (row) {
+        row[this.dataset.col] = this.value;
+      }
+    }));
+    gridWrap.querySelectorAll('.hub-grid-save').forEach(button => button.addEventListener('click', function (event) {
+      event.stopPropagation();
+      saveGridRow(Number(this.dataset.row)).catch(error => fail(gridWrap, error));
+    }));
   }
 
   function renderEditor(row) {
@@ -278,6 +304,11 @@ hubBootDataAdmin();
   font-weight: 800;
   text-transform: uppercase;
 }
+.hub-table-list {
+  max-height: 170px;
+  overflow-y: auto;
+  padding-right: 3px;
+}
 .hub-table-button {
   display: flex;
   width: 100%;
@@ -345,7 +376,7 @@ hubBootDataAdmin();
 .hub-grid th,
 .hub-grid td {
   border-bottom: 1px solid #edf0f2;
-  padding: 8px 10px;
+  padding: 6px 8px;
   text-align: left;
   white-space: nowrap;
 }
@@ -363,6 +394,33 @@ hubBootDataAdmin();
 .hub-grid tr:hover,
 .hub-grid tr.is-selected {
   background: #f4f7fb;
+}
+.hub-grid-input {
+  width: 100%;
+  min-width: 9rem;
+  min-height: 30px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #111827;
+  padding: 4px 6px;
+}
+.hub-grid-input:focus {
+  border-color: #1f5eff;
+  background: #ffffff;
+  outline: 0;
+}
+.hub-grid-input[readonly] {
+  color: #64707d;
+}
+.hub-grid-save {
+  min-height: 30px;
+  border: 1px solid #cbd5df;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #111827;
+  padding: 0 9px;
+  font-weight: 800;
 }
 .hub-editor-grid {
   display: grid;
@@ -433,30 +491,36 @@ hubBootDataAdmin();
       </div>
     </div>
     <div id="hubTableNav">
-      <div class="hub-table-group">Lookup Values</div>
-      <button type="button" class="hub-table-button" data-table="cadences"><span>Cadences</span></button>
-      <button type="button" class="hub-table-button" data-table="categories"><span>Categories</span></button>
-      <button type="button" class="hub-table-button" data-table="goals"><span>Goals</span></button>
-      <button type="button" class="hub-table-button" data-table="meeting_statuses"><span>Meeting Statuses</span></button>
-      <button type="button" class="hub-table-button" data-table="meeting_types"><span>Meeting Types</span></button>
-      <button type="button" class="hub-table-button" data-table="priorities"><span>Priorities</span></button>
-      <button type="button" class="hub-table-button" data-table="report_timeframes"><span>Report Timeframes</span></button>
-      <button type="button" class="hub-table-button" data-table="statuses"><span>Statuses</span></button>
-      <button type="button" class="hub-table-button" data-table="workstreams"><span>Workstreams</span></button>
       <div class="hub-table-group">Operational Data</div>
-      <button type="button" class="hub-table-button" data-table="dependencies"><span>Dependencies</span></button>
-      <button type="button" class="hub-table-button" data-table="leave"><span>Leave</span></button>
-      <button type="button" class="hub-table-button" data-table="meetings"><span>Meetings</span></button>
-      <button type="button" class="hub-table-button" data-table="milestones"><span>Milestones</span></button>
-      <button type="button" class="hub-table-button" data-table="on_call"><span>On Call</span></button>
-      <button type="button" class="hub-table-button" data-table="projects"><span>Projects</span></button>
-      <button type="button" class="hub-table-button" data-table="risk_register"><span>Risk Register</span></button>
-      <button type="button" class="hub-table-button" data-table="team_members"><span>Team Members</span></button>
+      <div class="hub-table-list">
+        <button type="button" class="hub-table-button" data-table="team_members"><span>Team Members</span></button>
+        <button type="button" class="hub-table-button" data-table="projects"><span>Projects</span></button>
+        <button type="button" class="hub-table-button" data-table="milestones"><span>Milestones</span></button>
+        <button type="button" class="hub-table-button" data-table="leave"><span>Leave</span></button>
+        <button type="button" class="hub-table-button" data-table="on_call"><span>On Call</span></button>
+        <button type="button" class="hub-table-button" data-table="meetings"><span>Meetings</span></button>
+        <button type="button" class="hub-table-button" data-table="risk_register"><span>Risk Register</span></button>
+        <button type="button" class="hub-table-button" data-table="dependencies"><span>Dependencies</span></button>
+      </div>
       <div class="hub-table-group">Reference Calendars</div>
-      <button type="button" class="hub-table-button" data-table="holidays"><span>Holidays</span></button>
-      <button type="button" class="hub-table-button" data-table="holiday_notes"><span>Holiday Notes</span></button>
-      <button type="button" class="hub-table-button" data-table="oracle_ru_calendar"><span>Oracle RU Calendar</span></button>
-      <button type="button" class="hub-table-button" data-table="oracle_security_patches"><span>Security Patches</span></button>
+      <div class="hub-table-list">
+        <button type="button" class="hub-table-button" data-table="oracle_ru_calendar"><span>Oracle RU Calendar</span></button>
+        <button type="button" class="hub-table-button" data-table="oracle_security_patches"><span>Security Patches</span></button>
+        <button type="button" class="hub-table-button" data-table="holidays"><span>Holidays</span></button>
+        <button type="button" class="hub-table-button" data-table="holiday_notes"><span>Holiday Notes</span></button>
+      </div>
+      <div class="hub-table-group">Lookup Values</div>
+      <div class="hub-table-list">
+        <button type="button" class="hub-table-button" data-table="statuses"><span>Statuses</span></button>
+        <button type="button" class="hub-table-button" data-table="priorities"><span>Priorities</span></button>
+        <button type="button" class="hub-table-button" data-table="workstreams"><span>Workstreams</span></button>
+        <button type="button" class="hub-table-button" data-table="categories"><span>Categories</span></button>
+        <button type="button" class="hub-table-button" data-table="goals"><span>Goals</span></button>
+        <button type="button" class="hub-table-button" data-table="meeting_statuses"><span>Meeting Statuses</span></button>
+        <button type="button" class="hub-table-button" data-table="meeting_types"><span>Meeting Types</span></button>
+        <button type="button" class="hub-table-button" data-table="cadences"><span>Cadences</span></button>
+        <button type="button" class="hub-table-button" data-table="report_timeframes"><span>Report Timeframes</span></button>
+      </div>
     </div>
   </aside>
 
