@@ -58,10 +58,12 @@ This writes `apex_install.xml` and `f100.sql`, then runs `lb validate -changelog
 ## Build Rule
 
 1. Export the clean app as split APEXLANG.
-2. Make changes in the split project directory or a working copy.
-3. Generate and validate the SQLcl Liquibase APEX package with container SQLcl.
-4. Import/apply only after validation passes.
-5. Export again immediately after import and confirm the new live app can export cleanly.
+2. Test metadata-changing scripts against disposable app `101`.
+3. Verify disposable app `101` exports as APEXLANG.
+4. Apply the same script to app `100` only after the disposable export passes.
+5. Export app `100` immediately after apply and confirm the live app still exports cleanly.
+
+For Page 1, avoid APEX dynamic PL/SQL region metadata in low-level scripts. Disposable testing showed that path causes `APEX_EXPORT.GET_APPLICATION(... APEXLANG ...)` to fail with `ORA-01403`. The current dashboard keeps Page 1 as static APEX metadata and loads live values from ORDS.
 
 ## Guardrail
 

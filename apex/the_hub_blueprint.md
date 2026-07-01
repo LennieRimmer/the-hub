@@ -29,16 +29,15 @@ Do not use low-level `wwv_flow_imp_page` scripts against app `100` for normal fe
 
 Page 1: Dashboard
 
-Status: planned. App `100` currently has the clean GUI-created Home page. Future Page 1 work should be generated as APEXLANG and validated before import.
+Status: implemented as the first dashboard increment. Page 1 uses export-safe static APEX metadata for the visual shell and loads live KPI/milestone data from ORDS endpoint `/ords/thehub/dashboard/summary`.
 
 - Purpose: single command center for the next planning window.
 - Items: `P1_PERIOD_START`, `P1_PERIOD_END`.
 - Regions:
   - Planning Window date controls.
-  - Dashboard Summary dynamic-content region with KPI cards and milestone focus.
-  - Milestones in Window classic report.
-  - Meetings in Window classic report.
-  - Leave Summary classic report.
+  - KPI cards loaded from ORDS.
+  - Upcoming milestone focus list loaded from ORDS.
+  - Planning signal panel for the next patch marker.
 - Data sources: `projects`, `milestones`, `leave`, `on_call`, `meetings`, `team_members`.
 
 Page 2: Projects
@@ -162,6 +161,7 @@ Current verification notes:
 
 - App `100` exports as `apex/exports/thehub_app_100_apexlang.zip`.
 - Expanded project exists at `apex/exports/thehub_app_100_apexlang/`.
+- Dashboard REST endpoint exists at `http://localhost:8181/ords/thehub/dashboard/summary`.
 - Container SQLcl 26.1.1 is available at `/opt/oracle/product/26ai/dbhomeFree/sqlcl/bin/sql`.
 - Container SQLcl generated and validated `apex/exports/thehub_app_100_liquibase/apex_install.xml`.
 - Host SQLcl versions tested can export APEXLANG but do not expose `apex validate -input` or `apex import -input`.

@@ -1,15 +1,23 @@
--- Replace APEX application 100 page 1 with The Hub dashboard.
--- Run connected to FREEPDB1 as THEHUB or an APEX administrator.
+-- Replace an APEX application Page 1 with an export-safe dashboard shell.
+--
+-- The page itself is static APEX metadata so APEXLANG export stays stable.
+-- Live KPI data is loaded from ORDS endpoint /ords/thehub/dashboard/summary.
+--
+-- Usage:
+--   @build_dashboard_page.sql 101
+--   @build_dashboard_page.sql 100
 
-set define off verify off feedback on
+set define on verify off feedback on
 whenever sqlerror exit sql.sqlcode rollback
+
+define HUB_APP_ID = &1
 
 begin
   wwv_flow_imp.import_begin(
     p_version_yyyy_mm_dd      => '2026.03.30',
     p_release                 => '26.1.1',
     p_default_workspace_id    => 4826358844790905,
-    p_default_application_id  => 100,
+    p_default_application_id  => &HUB_APP_ID,
     p_default_id_offset       => 0,
     p_default_owner           => 'THEHUB'
   );
@@ -18,7 +26,7 @@ end;
 
 begin
   wwv_flow_imp_page.remove_page(
-    p_flow_id => 100,
+    p_flow_id => &HUB_APP_ID,
     p_page_id => 1
   );
 
@@ -27,310 +35,281 @@ begin
     p_name                  => 'Dashboard',
     p_alias                 => 'HOME',
     p_step_title            => 'The Hub',
+    p_autocomplete_on_off   => 'OFF',
     p_step_template         => 4073832297226169690,
     p_page_template_options => '#DEFAULT#',
-    p_autocomplete_on_off   => 'OFF',
     p_protection_level      => 'C',
-    p_page_component_map    => '18',
-    p_inline_css            => q'~ 
-.hub-shell {
+    p_page_component_map    => '13',
+    p_inline_css            => q'~
+.hub-dashboard {
   display: grid;
-  gap: 1rem;
+  gap: 16px;
+  color: #111827;
 }
-
-.hub-hero {
-  background: linear-gradient(135deg, #101820 0%, #26343d 58%, #355c67 100%);
-  color: #fff;
+.hub-hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+  border: 1px solid #dfe4ea;
   border-radius: 6px;
-  padding: 1.2rem 1.35rem;
-  box-shadow: 0 12px 26px rgba(16, 24, 32, .18);
+  background: #ffffff;
+  padding: 18px 20px;
+  box-shadow: 0 8px 20px rgba(20, 35, 50, 0.08);
 }
-
-.hub-hero h1 {
+.hub-hero-panel h1 {
   margin: 0;
+  color: #111827;
   font-size: 1.55rem;
   line-height: 1.2;
   letter-spacing: 0;
 }
-
-.hub-hero p {
-  margin: .35rem 0 0;
-  max-width: 58rem;
-  color: rgba(255,255,255,.82);
+.hub-hero-panel p {
+  margin: 6px 0 0;
+  color: #52606d;
 }
-
-.hub-kpis {
+.hub-window-controls {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: .75rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 8px;
+  align-items: end;
 }
-
+.hub-window-controls label {
+  display: grid;
+  gap: 4px;
+  color: #52606d;
+  font-size: .78rem;
+  font-weight: 700;
+}
+.hub-window-controls input {
+  min-height: 36px;
+  border: 1px solid #cbd5df;
+  border-radius: 4px;
+  padding: 0 8px;
+  color: #111827;
+  background: #ffffff;
+}
+.hub-window-controls button {
+  min-height: 36px;
+  border: 1px solid #1f5eff;
+  border-radius: 4px;
+  padding: 0 13px;
+  color: #ffffff;
+  background: #1f5eff;
+  font-weight: 700;
+}
+.hub-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 12px;
+}
 .hub-kpi {
-  min-height: 6.3rem;
-  border: 1px solid rgba(16, 24, 32, .08);
+  min-height: 102px;
+  border: 1px solid #dfe4ea;
   border-radius: 6px;
-  padding: .85rem .95rem;
-  background: #fff;
-  box-shadow: 0 6px 18px rgba(16, 24, 32, .07);
+  background: #ffffff;
+  padding: 14px 15px;
+  box-shadow: 0 6px 16px rgba(20, 35, 50, 0.06);
 }
-
 .hub-kpi span {
   display: block;
-  color: #59636e;
+  color: #52606d;
   font-size: .76rem;
   font-weight: 700;
   text-transform: uppercase;
 }
-
 .hub-kpi strong {
   display: block;
-  margin-top: .35rem;
+  margin-top: 8px;
   color: #111827;
   font-size: 2rem;
   line-height: 1;
 }
-
 .hub-kpi small {
   display: block;
-  margin-top: .4rem;
+  margin-top: 8px;
   color: #69737d;
 }
-
 .hub-kpi.is-danger {
-  border-color: rgba(186, 43, 43, .26);
+  border-color: #efb8b8;
   background: #fffafa;
 }
-
-.hub-focus {
+.hub-focus-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(18rem, .65fr);
-  gap: .9rem;
+  gap: 12px;
 }
-
 .hub-panel {
-  border: 1px solid rgba(16, 24, 32, .08);
+  border: 1px solid #dfe4ea;
   border-radius: 6px;
-  background: #fff;
-  padding: .95rem;
+  background: #ffffff;
+  padding: 15px;
 }
-
 .hub-panel h2 {
-  margin: 0 0 .7rem;
+  margin: 0 0 10px;
   font-size: 1rem;
+  line-height: 1.25;
   letter-spacing: 0;
 }
-
 .hub-list {
   display: grid;
-  gap: .55rem;
+  gap: 0;
 }
-
 .hub-row {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr) auto;
-  gap: .7rem;
+  grid-template-columns: 5.8rem minmax(0, 1fr) auto;
+  gap: 10px;
   align-items: center;
-  padding: .55rem 0;
+  padding: 9px 0;
   border-top: 1px solid #edf0f2;
 }
-
 .hub-row:first-child {
   border-top: 0;
 }
-
 .hub-date {
-  color: #59636e;
+  color: #52606d;
   font-variant-numeric: tabular-nums;
 }
-
 .hub-title {
   color: #111827;
-  font-weight: 650;
+  font-weight: 700;
 }
-
 .hub-meta {
   color: #69737d;
-  font-size: .82rem;
+  font-size: .84rem;
 }
-
 .hub-pill {
   display: inline-flex;
   align-items: center;
-  min-height: 1.45rem;
+  min-height: 22px;
   border-radius: 999px;
-  padding: .12rem .55rem;
+  padding: 0 8px;
   background: #eef4ff;
   color: #2355a3;
   font-size: .78rem;
   font-weight: 700;
 }
-
 .hub-pill.is-high {
   background: #fff0f0;
   color: #a12b2b;
 }
-
+.hub-state {
+  color: #69737d;
+}
 ~'
   );
 
   wwv_flow_imp_page.create_page_plug(
     p_id                    => wwv_flow_imp.id(100010),
-    p_flow_id               => 100,
-    p_page_id               => 1,
-    p_plug_name             => 'Planning Window',
-    p_static_id             => 'planning-window',
-    p_plug_display_point    => 'BODY',
+    p_plug_name             => 'The Hub Dashboard',
+    p_static_id             => 'the-hub-dashboard',
+    p_region_template_options => '#DEFAULT#:t-Region--noPadding:t-Region--removeHeader',
+    p_escape_on_http_output => 'N',
     p_plug_template         => 4073835273271169698,
     p_plug_display_sequence => 10,
+    p_plug_display_point    => 'BODY',
     p_plug_item_display_point => 'ABOVE',
-    p_plug_source_type      => 'NATIVE_STATIC_CONTENT',
-    p_plug_new_grid         => true,
-    p_plug_new_grid_row     => true,
-    p_region_template_options => '#DEFAULT#:t-Region--noPadding:t-Region--removeHeader',
+    p_plug_source           => q'~
+<div class="hub-dashboard" id="hubDashboard">
+  <section class="hub-hero-panel">
+    <div>
+      <h1>The Hub</h1>
+      <p>DBA planning command center for projects, milestones, coverage, meetings, and Oracle patch windows.</p>
+    </div>
+    <div class="hub-window-controls">
+      <label>Start <input id="hubPeriodStart" type="date"></label>
+      <label>End <input id="hubPeriodEnd" type="date"></label>
+      <button id="hubApplyWindow" type="button">Apply</button>
+    </div>
+  </section>
+
+  <section class="hub-kpi-grid" aria-live="polite">
+    <div class="hub-kpi"><span>Active projects</span><strong id="hubActiveProjects">-</strong><small>overlaps selected window</small></div>
+    <div class="hub-kpi"><span>Milestones</span><strong id="hubMilestones">-</strong><small>due in selected window</small></div>
+    <div class="hub-kpi"><span>Leave hours</span><strong id="hubLeaveHours">-</strong><small>approved or planned</small></div>
+    <div class="hub-kpi" id="hubConflictCard"><span>On-call conflicts</span><strong id="hubConflicts">-</strong><small>coverage weeks to review</small></div>
+  </section>
+
+  <section class="hub-focus-grid">
+    <div class="hub-panel">
+      <h2>Upcoming Milestones</h2>
+      <div class="hub-list" id="hubMilestoneList"><div class="hub-state">Loading milestones...</div></div>
+    </div>
+    <div class="hub-panel">
+      <h2>Planning Signal</h2>
+      <p class="hub-meta">Next patch marker</p>
+      <div class="hub-title" id="hubNextPatch">Loading...</div>
+      <p class="hub-meta" id="hubUpdatedAt"></p>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  const startInput = document.getElementById('hubPeriodStart');
+  const endInput = document.getElementById('hubPeriodEnd');
+  const applyButton = document.getElementById('hubApplyWindow');
+  const text = (id, value) => { document.getElementById(id).textContent = value; };
+  const esc = (value) => String(value == null ? '' : value).replace(/[<>"']/g, function (c) {
+    return {'<':'\u0026lt;','>':'\u0026gt;','"':'\u0026quot;',"'":'\u0026#39;'}[c];
+  });
+  const iso = (date) => date.toISOString().slice(0, 10);
+  const today = new Date();
+  const start = new Date(today.getFullYear(), today.getMonth(), 1);
+  const end = new Date(today.getFullYear(), today.getMonth() + 3, 0);
+  const amp = String.fromCharCode(38);
+
+  startInput.value = iso(start);
+  endInput.value = iso(end);
+
+  function renderMilestones(rows) {
+    const list = document.getElementById('hubMilestoneList');
+    if (!rows || rows.length === 0) {
+      list.innerHTML = '<div class="hub-state">No milestones in this window.</div>';
+      return;
+    }
+    list.innerHTML = rows.map(function (row) {
+      const priority = esc(row.priority || 'Normal');
+      const high = priority.toLowerCase() === 'high' ? ' is-high' : '';
+      return '<div class="hub-row"><div class="hub-date">' + esc(row.milestone_date_label) + '</div><div><div class="hub-title">' + esc(row.milestone_name) + '</div><div class="hub-meta">' + esc(row.project_id) + '</div></div><span class="hub-pill' + high + '">' + priority + '</span></div>';
+    }).join('');
+  }
+
+  async function loadDashboard() {
+    const url = '/ords/thehub/dashboard/summary?period_start=' + encodeURIComponent(startInput.value) + amp + 'period_end=' + encodeURIComponent(endInput.value);
+    const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    if (!response.ok) {
+      throw new Error('Dashboard service returned ' + response.status);
+    }
+    const data = await response.json();
+    text('hubActiveProjects', data.active_projects ?? 0);
+    text('hubMilestones', data.milestones_in_period ?? 0);
+    text('hubLeaveHours', data.leave_hours ?? 0);
+    text('hubConflicts', data.on_call_conflicts ?? 0);
+    text('hubNextPatch', data.next_patch || 'No future patch rows found');
+    text('hubUpdatedAt', 'Window: ' + startInput.value + ' to ' + endInput.value);
+    document.getElementById('hubConflictCard').classList.toggle('is-danger', Number(data.on_call_conflicts || 0) > 0);
+    renderMilestones(data.milestones);
+  }
+
+  applyButton.addEventListener('click', function () {
+    text('hubNextPatch', 'Loading...');
+    document.getElementById('hubMilestoneList').innerHTML = '<div class="hub-state">Loading milestones...</div>';
+    loadDashboard().catch(function (error) {
+      document.getElementById('hubMilestoneList').innerHTML = '<div class="hub-state">' + esc(error.message) + '</div>';
+    });
+  });
+
+  loadDashboard().catch(function (error) {
+    document.getElementById('hubMilestoneList').innerHTML = '<div class="hub-state">' + esc(error.message) + '</div>';
+  });
+}());
+</script>
+~',
     p_attributes            => wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
       'expand_shortcuts', 'N',
       'output_as', 'HTML')).to_clob
   );
-
-  wwv_flow_imp_page.create_page_item(
-    p_id                    => wwv_flow_imp.id(100011),
-    p_flow_id               => 100,
-    p_flow_step_id          => 1,
-    p_name                  => 'P1_PERIOD_START',
-    p_data_type             => 'VARCHAR2',
-    p_source_data_type      => 'VARCHAR2',
-    p_item_sequence         => 10,
-    p_item_plug_id          => wwv_flow_imp.id(100010),
-    p_item_display_point    => 'BODY',
-    p_use_cache_before_default => 'NO',
-    p_item_default          => 'TRUNC(SYSDATE, ''MM'')',
-    p_item_default_type     => 'EXPRESSION',
-    p_item_default_language => 'PLSQL',
-    p_prompt                => 'Start',
-    p_display_as            => 'NATIVE_DATE_PICKER_APEX',
-    p_format_mask           => 'YYYY-MM-DD',
-    p_cSize                 => 12,
-    p_field_template        => 2042262243893469891,
-    p_item_template_options => '#DEFAULT#',
-    p_attributes            => wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-      'show_on', 'FOCUS',
-      'use_defaults', 'Y')).to_clob
-  );
-
-  wwv_flow_imp_page.create_page_item(
-    p_id                    => wwv_flow_imp.id(100012),
-    p_flow_id               => 100,
-    p_flow_step_id          => 1,
-    p_name                  => 'P1_PERIOD_END',
-    p_data_type             => 'VARCHAR2',
-    p_source_data_type      => 'VARCHAR2',
-    p_item_sequence         => 20,
-    p_item_plug_id          => wwv_flow_imp.id(100010),
-    p_item_display_point    => 'BODY',
-    p_use_cache_before_default => 'NO',
-    p_item_default          => 'LAST_DAY(ADD_MONTHS(TRUNC(SYSDATE, ''MM''), 2))',
-    p_item_default_type     => 'EXPRESSION',
-    p_item_default_language => 'PLSQL',
-    p_prompt                => 'End',
-    p_display_as            => 'NATIVE_DATE_PICKER_APEX',
-    p_format_mask           => 'YYYY-MM-DD',
-    p_cSize                 => 12,
-    p_field_template        => 2042262243893469891,
-    p_item_template_options => '#DEFAULT#',
-    p_attributes            => wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-      'show_on', 'FOCUS',
-      'use_defaults', 'Y')).to_clob
-  );
-
-  wwv_flow_imp_page.create_page_button(
-    p_id                    => wwv_flow_imp.id(100013),
-    p_button_sequence       => 30,
-    p_button_plug_id        => wwv_flow_imp.id(100010),
-    p_button_name           => 'APPLY',
-    p_static_id             => 'apply-window',
-    p_button_action         => 'SUBMIT',
-    p_button_template_id    => 4073839297780169708,
-    p_button_is_hot         => 'Y',
-    p_button_image_alt      => 'Apply',
-    p_button_position       => 'NEXT'
-  );
-
-  wwv_flow_imp_page.create_page_plug(
-    p_id                    => wwv_flow_imp.id(100020),
-    p_flow_id               => 100,
-    p_page_id               => 1,
-    p_plug_name             => 'Dashboard Summary',
-    p_static_id             => 'dashboard-summary',
-    p_plug_display_point    => 'BODY',
-    p_plug_template         => 4073835273271169698,
-    p_plug_display_sequence => 20,
-    p_plug_source_type      => 'NATIVE_PLSQL',
-    p_function_body_language => 'PLSQL',
-    p_plug_source           => q'~DECLARE
-  l_start DATE := NVL(TO_DATE(:P1_PERIOD_START, 'YYYY-MM-DD'), TRUNC(SYSDATE, 'MM'));
-  l_end   DATE := NVL(TO_DATE(:P1_PERIOD_END, 'YYYY-MM-DD'), LAST_DAY(ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 2)));
-  l_projects NUMBER;
-  l_milestones NUMBER;
-  l_leave_hours NUMBER;
-  l_conflicts NUMBER;
-  l_next_patch VARCHAR2(200);
-BEGIN
-  SELECT COUNT(*) INTO l_projects
-  FROM projects p
-  WHERE p.status = 'Active'
-    AND NVL(p.finish_date, DATE '2999-12-31') >= l_start
-    AND NVL(p.start_date, DATE '1900-01-01') <= l_end;
-
-  SELECT COUNT(*) INTO l_milestones
-  FROM milestones m
-  WHERE m.milestone_date BETWEEN l_start AND l_end;
-
-  SELECT NVL(SUM(le.hours), 0) INTO l_leave_hours
-  FROM leave le
-  WHERE le.leave_date BETWEEN l_start AND l_end
-    AND NVL(le.status, 'Approved') <> 'Cancelled';
-
-  SELECT COUNT(*) INTO l_conflicts
-  FROM on_call o
-  WHERE o.conflict_flag = 'Yes'
-    AND o.week_start <= l_end
-    AND o.week_end >= l_start;
-
-  SELECT MIN(patch_code || ' - ' || TO_CHAR(release_date, 'Mon DD'))
-    INTO l_next_patch
-    FROM oracle_security_patches
-   WHERE release_date >= TRUNC(SYSDATE);
-
-  htp.p('<div class="hub-shell">');
-  htp.p('<section class="hub-hero"><h1>The Hub</h1><p>DBA planning command center for projects, milestones, coverage, meetings, and Oracle patch windows.</p></section>');
-  htp.p('<section class="hub-kpis">');
-  htp.p('<div class="hub-kpi"><span>Active projects</span><strong>' || l_projects || '</strong><small>overlaps selected window</small></div>');
-  htp.p('<div class="hub-kpi"><span>Milestones</span><strong>' || l_milestones || '</strong><small>due in selected window</small></div>');
-  htp.p('<div class="hub-kpi"><span>Leave hours</span><strong>' || l_leave_hours || '</strong><small>approved or planned</small></div>');
-  htp.p('<div class="hub-kpi ' || CASE WHEN l_conflicts > 0 THEN 'is-danger' END || '"><span>On-call conflicts</span><strong>' || l_conflicts || '</strong><small>coverage weeks to review</small></div>');
-  htp.p('</section>');
-  htp.p('<section class="hub-focus">');
-  htp.p('<div class="hub-panel"><h2>Upcoming Milestones</h2><div class="hub-list">');
-  FOR r IN (
-    SELECT project_id, milestone_name, milestone_date, priority
-      FROM milestones
-     WHERE milestone_date BETWEEN l_start AND l_end
-     ORDER BY milestone_date, CASE priority WHEN 'High' THEN 1 WHEN 'Medium' THEN 2 ELSE 3 END, project_id
-     FETCH FIRST 7 ROWS ONLY
-  ) LOOP
-    htp.p('<div class="hub-row"><div class="hub-date">' || TO_CHAR(r.milestone_date, 'Mon DD') || '</div><div><div class="hub-title">' || apex_escape.html(r.milestone_name) || '</div><div class="hub-meta">' || apex_escape.html(r.project_id) || '</div></div><span class="hub-pill ' || CASE WHEN r.priority = 'High' THEN 'is-high' END || '">' || apex_escape.html(r.priority) || '</span></div>');
-  END LOOP;
-  htp.p('</div></div>');
-  htp.p('<div class="hub-panel"><h2>Planning Signal</h2><p class="hub-meta">Next patch marker</p><div class="hub-title">' || apex_escape.html(NVL(l_next_patch, 'No future patch rows found')) || '</div><p class="hub-meta">Use the reports below for the raw schedule behind this summary.</p></div>');
-  htp.p('</section></div>');
-END;~',
-    p_region_template_options => '#DEFAULT#:t-Region--noPadding:t-Region--removeHeader',
-    p_plug_new_grid         => true,
-    p_plug_new_grid_row     => true,
-    p_attributes            => wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-      'expand_shortcuts', 'N')).to_clob
-  );
-
 end;
 /
 

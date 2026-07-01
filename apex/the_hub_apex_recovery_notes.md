@@ -58,6 +58,12 @@ REST status:
 Next build rule:
 
 - Do not push low-level APEX metadata scripts directly into app `100`.
-- Generate APEXlang artifacts first.
-- Validate through container SQLcl Liquibase APEX tooling before import/apply.
-- Import only after validation passes.
+- Test page metadata scripts against disposable app `101` first.
+- Verify disposable app `101` exports as APEXLANG before touching app `100`.
+- Apply to app `100` only after the disposable export gate passes.
+- Export app `100` immediately after apply.
+
+Dashboard implementation note:
+
+- A richer APEX dynamic PL/SQL region was tested on disposable app `101` and reproduced the previous `ORA-01403` APEXLANG export failure.
+- The accepted Page 1 pattern is an export-safe static APEX shell backed by ORDS JSON endpoint `/ords/thehub/dashboard/summary`.

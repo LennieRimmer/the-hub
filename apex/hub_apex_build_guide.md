@@ -95,30 +95,25 @@ Use the SQL in `apex/hub_apex_region_sql.sql` under **Shared LOV SQL**.
 
 ## Page 1 - Dashboard
 
-Page type: Blank (or Dashboard)
+Page type: Blank.
 
-Create page items:
-- `P1_PERIOD_START` (Date Picker, default `TRUNC(SYSDATE,'MM')`)
-- `P1_PERIOD_END` (Date Picker, default `LAST_DAY(ADD_MONTHS(TRUNC(SYSDATE,'MM'),2))`)
+Current implementation:
 
-Create regions:
-- KPI cards for:
-  - Active Projects in Period
-  - Milestones in Period
-  - Leave Hours in Period
-  - On-Call Conflict Weeks in Period
-- Report regions for:
-  - Upcoming milestones
-  - Meetings in period
-  - Leave summary by person
+- Static APEX page shell for export-safe APEXLANG.
+- Client-side date controls.
+- ORDS JSON endpoint for KPI and milestone data: `/ords/thehub/dashboard/summary`.
+- Endpoint install script: `apex/scripts/install_dashboard_rest.sql`.
+- Page build script: `apex/scripts/build_dashboard_page.sql`.
 
-Set region SQL from `apex/hub_apex_region_sql.sql` under Dashboard sections.
+Build/update sequence:
 
-Add a Dynamic Action:
-- Event: Change
-- Selection Type: Item(s)
-- Items: `P1_PERIOD_START`, `P1_PERIOD_END`
-- True Action: Refresh all dashboard regions
+1. Run `apex/scripts/install_dashboard_rest.sql`.
+2. Run `apex/scripts/build_dashboard_page.sql 101` against disposable app `101`.
+3. Verify app `101` exports as APEXLANG.
+4. Run `apex/scripts/build_dashboard_page.sql 100`.
+5. Export app `100` and verify the page still exports as APEXLANG.
+
+Reason for this pattern: direct APEX dynamic PL/SQL region metadata caused APEXLANG export failures in disposable testing. The static shell plus ORDS data endpoint preserves exportability while still giving the dashboard live data.
 
 ## Page 2 - Projects
 

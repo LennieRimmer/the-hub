@@ -1,8 +1,11 @@
 -- Export APEX application 100 as a canonical APEXLANG ZIP archive.
 -- Writes /tmp/thehub_app_100_apexlang.zip inside oracle26ai-db.
+-- Run inside oracle26ai-db as SYSDBA.
 
 set serveroutput on size unlimited
 whenever sqlerror exit sql.sqlcode rollback
+
+alter session set container=FREEPDB1;
 
 DECLARE
   l_workspace_id NUMBER;
@@ -13,6 +16,8 @@ DECLARE
   l_amount       BINARY_INTEGER := 32767;
   l_len          INTEGER;
 BEGIN
+  execute immediate 'grant inherit privileges on user SYS to APEX_260100';
+
   SELECT workspace_id
     INTO l_workspace_id
     FROM apex_workspaces
@@ -40,8 +45,20 @@ BEGIN
   DBMS_OUTPUT.put_line('Exported /tmp/thehub_app_100_apexlang.zip');
   DBMS_OUTPUT.put_line('Files: ' || l_files.COUNT);
   DBMS_OUTPUT.put_line('Bytes: ' || l_len);
+
+  execute immediate 'revoke inherit privileges on user SYS from APEX_260100';
+EXCEPTION
+  WHEN OTHERS THEN
+    BEGIN
+      execute immediate 'revoke inherit privileges on user SYS from APEX_260100';
+    EXCEPTION
+      WHEN OTHERS THEN NULL;
+    END;
+    IF UTL_FILE.is_open(l_file) THEN
+      UTL_FILE.fclose(l_file);
+    END IF;
+    RAISE;
 END;
 /
 
 exit
-
