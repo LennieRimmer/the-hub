@@ -283,6 +283,7 @@ begin
 
 <script>
 (function () {
+  function bootDataAdmin() {
   const state = { catalog: [], active: null, rows: [], selected: null };
   const nav = document.getElementById('hubTableNav');
   const gridWrap = document.getElementById('hubGridWrap');
@@ -297,7 +298,15 @@ begin
     '"': entity + 'quot;',
     "'": entity + '#39;'
   }[c]));
-  const call = (action, data) => apex.server.process('THEHUB_ADMIN_API', Object.assign({x01: action}, data || {}), {dataType: 'json'});
+  const fail = (target, error) => {
+    target.innerHTML = '<div class="hub-state">' + esc(error ? (error.message ? error.message : error) : 'Unknown error') + '</div>';
+  };
+  const call = (action, data) => {
+    if (!window.apex || !window.apex.server) {
+      return Promise.reject(new Error('APEX server API is not ready. Refresh the page and sign in again if needed.'));
+    }
+    return window.apex.server.process('THEHUB_ADMIN_API', Object.assign({x01: action}, data || {}), {dataType: 'json'});
+  };
   const display = (value) => value == null ? '' : String(value).slice(0, 120);
   const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
   const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
@@ -355,11 +364,18 @@ begin
   async function loadRows() {
     if (!state.active) return;
     gridWrap.innerHTML = '<div class="hub-state">Loading rows...</div>';
-    const data = await call('rows', {x02: state.active.key});
-    state.rows = data.rows || [];
-    state.selected = null;
-    renderGrid();
-    renderEditor(null);
+    try {
+      const data = await call('rows', {x02: state.active.key});
+      if (data ? data.ok === false : false) {
+        throw new Error(data.error || 'Unable to load rows.');
+      }
+      state.rows = data.rows || [];
+      state.selected = null;
+      renderGrid();
+      renderEditor(null);
+    } catch (error) {
+      fail(gridWrap, error);
+    }
   }
 
   async function selectTable(key) {
@@ -392,12 +408,32 @@ begin
   });
 
   call('catalog').then(data => {
+    if (data ? data.ok === false : false) {
+      throw new Error(data.error || 'Unable to load table catalog.');
+    }
     state.catalog = data.tables || [];
     renderNav();
     if (state.catalog.length) selectTable(state.catalog[0].key);
   }).catch(error => {
-    nav.innerHTML = '<div class="hub-state">' + esc(error.message) + '</div>';
+    fail(nav, error);
   });
+  }
+
+  function startWhenReady(attempt) {
+    if (window.apex ? window.apex.server : false) {
+      bootDataAdmin();
+    } else if (attempt < 30) {
+      window.setTimeout(function () { startWhenReady(attempt + 1); }, 100);
+    } else {
+      bootDataAdmin();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { startWhenReady(0); });
+  } else {
+    startWhenReady(0);
+  }
 }());
 </script>
 ~',
