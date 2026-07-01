@@ -717,6 +717,9 @@ page 20 (
               const help = document.getElementById('hubTableHelp');
               const fields = document.getElementById('hubEditorFields');
               const form = document.getElementById('hubEditorForm');
+              const newButton = document.getElementById('hubNew');
+              const refreshButton = document.getElementById('hubRefresh');
+              const deleteButton = document.getElementById('hubDelete');
               const entity = String.fromCharCode(38);
               const esc = (v) => String(v == null ? '' : v).replace(/[<>"']/g, c => ({
                 '<': entity + 'lt;',
@@ -782,7 +785,9 @@ page 20 (
                     : '<input name="' + esc(col.name) + '" type="' + columnInputType(col) + '" value="' + esc(value) + '"' + readonly + required + '>';
                   return '<div class="hub-field"><label>' + esc(col.label) + '</label>' + input + '</div>';
                 }).join('');
-                document.getElementById('hubDelete').disabled = !row;
+                if (deleteButton) {
+                  deleteButton.disabled = !row;
+                }
               }
             
               function editRow(row) {
@@ -825,17 +830,23 @@ page 20 (
                 await loadRows();
               });
             
-              document.getElementById('hubNew').addEventListener('click', () => {
-                state.selected = null;
-                renderEditor(null);
-              });
-              document.getElementById('hubRefresh').addEventListener('click', loadRows);
-              document.getElementById('hubDelete').addEventListener('click', async function () {
-                if (!state.active || !state.selected) return;
-                const pk = pkColumn();
-                await call('delete', {x02: state.active.key, x03: state.selected[pk]});
-                await loadRows();
-              });
+              if (newButton) {
+                newButton.addEventListener('click', () => {
+                  state.selected = null;
+                  renderEditor(null);
+                });
+              }
+              if (refreshButton) {
+                refreshButton.addEventListener('click', loadRows);
+              }
+              if (deleteButton) {
+                deleteButton.addEventListener('click', async function () {
+                  if (!state.active || !state.selected) return;
+                  const pk = pkColumn();
+                  await call('delete', {x02: state.active.key, x03: state.selected[pk]});
+                  await loadRows();
+                });
+              }
             
               call('catalog').then(data => {
                 if (data ? data.ok === false : false) {
