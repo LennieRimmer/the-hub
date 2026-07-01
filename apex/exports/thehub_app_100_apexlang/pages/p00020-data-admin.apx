@@ -25,10 +25,11 @@ page 20 (
               const title = document.getElementById('hubTableTitle');
               const help = document.getElementById('hubTableHelp');
               const fields = document.getElementById('hubEditorFields');
-              const form = document.getElementById('hubEditorForm');
+              const editor = document.getElementById('hubEditorForm');
               const newButton = document.getElementById('hubNew');
               const refreshButton = document.getElementById('hubRefresh');
               const deleteButton = document.getElementById('hubDelete');
+              const saveButton = document.getElementById('hubSave');
               const entity = String.fromCharCode(38);
               const esc = (v) => String(v == null ? '' : v).replace(/[<>"']/g, c => ({
                 '<': entity + 'lt;',
@@ -49,7 +50,7 @@ page 20 (
               const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
               const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
             
-              if (!nav || !gridWrap || !title || !help || !fields || !form) {
+              if (!nav || !gridWrap || !title || !help || !fields || !editor) {
                 return;
               }
             
@@ -123,21 +124,39 @@ page 20 (
               }
             
               async function selectTable(key) {
+                if (!state.catalog.length) {
+                  gridWrap.innerHTML = '<div class="hub-state">Loading table metadata...</div>';
+                  return;
+                }
                 state.active = state.catalog.find(table => table.key === key);
+                if (!state.active) {
+                  gridWrap.innerHTML = '<div class="hub-state">Unknown table: ' + esc(key) + '</div>';
+                  return;
+                }
                 title.textContent = state.active.label;
                 help.textContent = state.active.group + ' / ' + state.active.table_name;
                 renderNav();
                 await loadRows();
               }
             
-              form.addEventListener('submit', async function (event) {
-                event.preventDefault();
-                if (!state.active) return;
+              function payloadFromEditor() {
                 const payload = {};
-                new FormData(form).forEach((value, key) => { payload[key] = value; });
+                editor.querySelectorAll('input, textarea, select').forEach(item => {
+                  if (item.name) {
+                    payload[item.name] = item.value;
+                  }
+                });
+                return payload;
+              }
+            
+              if (saveButton) {
+                saveButton.addEventListener('click', async function () {
+                if (!state.active) return;
+                const payload = payloadFromEditor();
                 await call('save', {x02: state.active.key, p_clob_01: JSON.stringify(payload)});
                 await loadRows();
-              });
+                });
+              }
             
               if (newButton) {
                 newButton.addEventListener('click', () => {
@@ -157,13 +176,19 @@ page 20 (
                 });
               }
             
+              nav.querySelectorAll('button[data-table]').forEach(button => {
+                button.addEventListener('click', () => selectTable(button.dataset.table));
+              });
+            
               call('catalog').then(data => {
                 if (data ? data.ok === false : false) {
                   throw new Error(data.error || 'Unable to load table catalog.');
                 }
                 state.catalog = data.tables || [];
                 renderNav();
-                if (state.catalog.length) selectTable(state.catalog[0].key);
+                if (state.catalog.length) {
+                  selectTable(state.catalog[0].key);
+                }
               }).catch(error => {
                 fail(nav, error);
               });
@@ -439,13 +464,13 @@ page 20 (
                         <p class="hub-admin-muted" id="hubEditorHint">Generated keys are filled by the database.</p>
                       </div>
                     </div>
-                    <form id="hubEditorForm">
+                    <div id="hubEditorForm">
                       <div class="hub-editor-grid" id="hubEditorFields"></div>
                       <div class="hub-editor-actions">
                         <button type="button" class="is-danger" id="hubDelete">Delete</button>
-                        <button type="submit" class="is-primary">Save</button>
+                        <button type="button" class="is-primary" id="hubSave">Save</button>
                       </div>
-                    </form>
+                    </div>
                   </section>
                 </div>
                 

@@ -142,7 +142,7 @@ create or replace package body thehub.admin_api as
     l_rows clob;
   begin
     begin_json;
-    l_sql := 'select coalesce(json_arrayagg(json_object(* returning clob) returning clob), ''[]'') ' ||
+    l_sql := 'select coalesce(json_arrayagg(json_object(* returning clob) returning clob), to_clob(''[]'')) ' ||
              'from (select * from thehub.' || l_meta.table_name || ' order by ' || l_meta.pk_column || ' fetch first 250 rows only)';
     execute immediate l_sql into l_rows;
     htp.prn('{"rows":');
