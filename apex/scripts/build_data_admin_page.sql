@@ -396,7 +396,32 @@ hubBootDataAdmin();
         <p>Maintain operational data and lookup values.</p>
       </div>
     </div>
-    <div id="hubTableNav" class="hub-state">Loading tables...</div>
+    <div id="hubTableNav">
+      <div class="hub-table-group">Lookup Values</div>
+      <button type="button" class="hub-table-button" data-table="cadences"><span>Cadences</span></button>
+      <button type="button" class="hub-table-button" data-table="categories"><span>Categories</span></button>
+      <button type="button" class="hub-table-button" data-table="goals"><span>Goals</span></button>
+      <button type="button" class="hub-table-button" data-table="meeting_statuses"><span>Meeting Statuses</span></button>
+      <button type="button" class="hub-table-button" data-table="meeting_types"><span>Meeting Types</span></button>
+      <button type="button" class="hub-table-button" data-table="priorities"><span>Priorities</span></button>
+      <button type="button" class="hub-table-button" data-table="report_timeframes"><span>Report Timeframes</span></button>
+      <button type="button" class="hub-table-button" data-table="statuses"><span>Statuses</span></button>
+      <button type="button" class="hub-table-button" data-table="workstreams"><span>Workstreams</span></button>
+      <div class="hub-table-group">Operational Data</div>
+      <button type="button" class="hub-table-button" data-table="dependencies"><span>Dependencies</span></button>
+      <button type="button" class="hub-table-button" data-table="leave"><span>Leave</span></button>
+      <button type="button" class="hub-table-button" data-table="meetings"><span>Meetings</span></button>
+      <button type="button" class="hub-table-button" data-table="milestones"><span>Milestones</span></button>
+      <button type="button" class="hub-table-button" data-table="on_call"><span>On Call</span></button>
+      <button type="button" class="hub-table-button" data-table="projects"><span>Projects</span></button>
+      <button type="button" class="hub-table-button" data-table="risk_register"><span>Risk Register</span></button>
+      <button type="button" class="hub-table-button" data-table="team_members"><span>Team Members</span></button>
+      <div class="hub-table-group">Reference Calendars</div>
+      <button type="button" class="hub-table-button" data-table="holidays"><span>Holidays</span></button>
+      <button type="button" class="hub-table-button" data-table="holiday_notes"><span>Holiday Notes</span></button>
+      <button type="button" class="hub-table-button" data-table="oracle_ru_calendar"><span>Oracle RU Calendar</span></button>
+      <button type="button" class="hub-table-button" data-table="oracle_security_patches"><span>Security Patches</span></button>
+    </div>
   </aside>
 
   <main class="hub-admin-main">
@@ -430,161 +455,6 @@ hubBootDataAdmin();
   </section>
 </div>
 
-<script>
-(function () {
-  function bootDataAdmin() {
-  const state = { catalog: [], active: null, rows: [], selected: null };
-  const nav = document.getElementById('hubTableNav');
-  const gridWrap = document.getElementById('hubGridWrap');
-  const title = document.getElementById('hubTableTitle');
-  const help = document.getElementById('hubTableHelp');
-  const fields = document.getElementById('hubEditorFields');
-  const form = document.getElementById('hubEditorForm');
-  const entity = String.fromCharCode(38);
-  const esc = (v) => String(v == null ? '' : v).replace(/[<>"']/g, c => ({
-    '<': entity + 'lt;',
-    '>': entity + 'gt;',
-    '"': entity + 'quot;',
-    "'": entity + '#39;'
-  }[c]));
-  const fail = (target, error) => {
-    target.innerHTML = '<div class="hub-state">' + esc(error ? (error.message ? error.message : error) : 'Unknown error') + '</div>';
-  };
-  const call = (action, data) => {
-    if (!window.apex || !window.apex.server) {
-      return Promise.reject(new Error('APEX server API is not ready. Refresh the page and sign in again if needed.'));
-    }
-    return window.apex.server.process('THEHUB_ADMIN_API', Object.assign({x01: action}, data || {}), {dataType: 'json'});
-  };
-  const display = (value) => value == null ? '' : String(value).slice(0, 120);
-  const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
-  const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
-
-  function byGroups(tables) {
-    return tables.reduce((groups, table) => {
-      (groups[table.group] = groups[table.group] || []).push(table);
-      return groups;
-    }, {});
-  }
-
-  function renderNav() {
-    const groups = byGroups(state.catalog);
-    nav.innerHTML = Object.keys(groups).map(group => (
-      '<div class="hub-table-group">' + esc(group) + '</div>' +
-      groups[group].map(table => '<button type="button" class="hub-table-button' + (state.active ? (state.active.key === table.key ? ' is-active' : '') : '') + '" data-table="' + esc(table.key) + '"><span>' + esc(table.label) + '</span></button>').join('')
-    )).join('');
-    nav.querySelectorAll('button').forEach(button => button.addEventListener('click', () => selectTable(button.dataset.table)));
-  }
-
-  function renderGrid() {
-    if (!state.active) return;
-    const cols = state.active.columns.slice(0, 8);
-    if (!state.rows.length) {
-      gridWrap.innerHTML = '<div class="hub-state">No rows found.</div>';
-      return;
-    }
-    gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '</tr></thead><tbody>' +
-      state.rows.map((row, i) => '<tr data-index="' + i + '"' + (state.selected === row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + esc(display(row[c.name])) + '</td>').join('') + '</tr>').join('') +
-      '</tbody></table>';
-    gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => editRow(state.rows[Number(tr.dataset.index)])));
-  }
-
-  function renderEditor(row) {
-    const current = row || {};
-    fields.innerHTML = state.active.columns.map(col => {
-      const value = current[col.name] == null ? '' : String(current[col.name]).slice(0, 10);
-      const readonly = col.generated ? (current[col.name] ? '' : ' readonly') : '';
-      const required = col.required ? ' required' : '';
-      const longText = col.name.indexOf('NOTES') >= 0 || col.name.indexOf('GUIDANCE') >= 0 || col.name.indexOf('MITIGATION') >= 0;
-      const input = longText
-        ? '<textarea name="' + esc(col.name) + '"' + readonly + required + '>' + esc(current[col.name] || '') + '</textarea>'
-        : '<input name="' + esc(col.name) + '" type="' + columnInputType(col) + '" value="' + esc(value) + '"' + readonly + required + '>';
-      return '<div class="hub-field"><label>' + esc(col.label) + '</label>' + input + '</div>';
-    }).join('');
-    document.getElementById('hubDelete').disabled = !row;
-  }
-
-  function editRow(row) {
-    state.selected = row;
-    renderGrid();
-    renderEditor(row);
-  }
-
-  async function loadRows() {
-    if (!state.active) return;
-    gridWrap.innerHTML = '<div class="hub-state">Loading rows...</div>';
-    try {
-      const data = await call('rows', {x02: state.active.key});
-      if (data ? data.ok === false : false) {
-        throw new Error(data.error || 'Unable to load rows.');
-      }
-      state.rows = data.rows || [];
-      state.selected = null;
-      renderGrid();
-      renderEditor(null);
-    } catch (error) {
-      fail(gridWrap, error);
-    }
-  }
-
-  async function selectTable(key) {
-    state.active = state.catalog.find(table => table.key === key);
-    title.textContent = state.active.label;
-    help.textContent = state.active.group + ' / ' + state.active.table_name;
-    renderNav();
-    await loadRows();
-  }
-
-  form.addEventListener('submit', async function (event) {
-    event.preventDefault();
-    if (!state.active) return;
-    const payload = {};
-    new FormData(form).forEach((value, key) => { payload[key] = value; });
-    await call('save', {x02: state.active.key, p_clob_01: JSON.stringify(payload)});
-    await loadRows();
-  });
-
-  document.getElementById('hubNew').addEventListener('click', () => {
-    state.selected = null;
-    renderEditor(null);
-  });
-  document.getElementById('hubRefresh').addEventListener('click', loadRows);
-  document.getElementById('hubDelete').addEventListener('click', async function () {
-    if (!state.active || !state.selected) return;
-    const pk = pkColumn();
-    await call('delete', {x02: state.active.key, x03: state.selected[pk]});
-    await loadRows();
-  });
-
-  call('catalog').then(data => {
-    if (data ? data.ok === false : false) {
-      throw new Error(data.error || 'Unable to load table catalog.');
-    }
-    state.catalog = data.tables || [];
-    renderNav();
-    if (state.catalog.length) selectTable(state.catalog[0].key);
-  }).catch(error => {
-    fail(nav, error);
-  });
-  }
-
-  function startWhenReady(attempt) {
-    if (window.apex ? window.apex.server : false) {
-      bootDataAdmin();
-    } else if (attempt < 30) {
-      window.setTimeout(function () { startWhenReady(attempt + 1); }, 100);
-    } else {
-      bootDataAdmin();
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { startWhenReady(0); });
-  } else {
-    startWhenReady(0);
-  }
-}());
-</script>
 ~',
     p_attributes            => wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
       'expand_shortcuts', 'N',
