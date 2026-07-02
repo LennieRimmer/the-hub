@@ -30,6 +30,127 @@ page 30 (
             template: @/standard
             templateOptions: #DEFAULT#
         }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchField
+                actionsMenu
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        heading {
+            fixedTo: region
+        }
+        advanced {
+            savedReportMappingIdentifier: 100300020
+        }
+
+        savedReport primary-report (
+            visibility: primary
+            name: Primary Report
+            view {
+                default: grid
+                rowsPerPage: 50
+                settingsAreaExpanded: false
+            }
+
+            displayColumn (
+                column: @PROJECT_ID
+                layout {
+                    sequence: 10
+                }
+            )
+
+            displayColumn (
+                column: @WORKSTREAM
+                layout {
+                    sequence: 20
+                }
+            )
+
+            displayColumn (
+                column: @INITIATIVE
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @CATEGORY
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @OWNER
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @START_DATE
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @FINISH_DATE
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @STATUS
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @PRIORITY
+                layout {
+                    sequence: 90
+                }
+            )
+
+            displayColumn (
+                column: @GOAL
+                layout {
+                    sequence: 100
+                }
+            )
+
+            displayColumn (
+                column: @GO_LIVE_FLAG
+                layout {
+                    sequence: 110
+                }
+            )
+
+        )
 
         column CATEGORY (
             type: selectList
@@ -269,6 +390,10 @@ page 30 (
             }
         )
 
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
     )
 
     process projects-save-interactive-grid-data (

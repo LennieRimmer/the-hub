@@ -46,6 +46,9 @@ end;
 
 declare
   l_region_id number := wwv_flow_imp.id(to_number(to_char(&HUB_APP_ID) || '300010'));
+  l_ig_id     number := wwv_flow_imp.id(to_number(to_char(&HUB_APP_ID) || '300020'));
+  l_report_id number := wwv_flow_imp.id(to_number(to_char(&HUB_APP_ID) || '300040'));
+  l_view_id   number := wwv_flow_imp.id(to_number(to_char(&HUB_APP_ID) || '300041'));
 begin
   wwv_flow_imp_page.create_page_plug(
     p_id                    => l_region_id,
@@ -67,6 +70,29 @@ begin
     p_add_row_if_empty      => true,
     p_lazy_loading          => false,
     p_ajax_enabled          => 'Y'
+  );
+
+  wwv_flow_imp_page.create_interactive_grid(
+    p_id                    => l_ig_id,
+    p_flow_id               => &HUB_APP_ID,
+    p_page_id               => 30,
+    p_region_id             => l_region_id,
+    p_is_editable           => true,
+    p_edit_operations       => 'i:u:d',
+    p_lost_update_check_type => 'VALUES',
+    p_add_row_if_empty      => true,
+    p_lazy_loading          => false,
+    p_show_toolbar          => true,
+    p_toolbar_buttons       => 'SEARCH_FIELD:ACTIONS_MENU:SAVE',
+    p_enable_save_public_report => false,
+    p_enable_subscriptions  => false,
+    p_enable_flashback      => false,
+    p_define_chart_view     => false,
+    p_enable_download       => true,
+    p_download_formats      => 'CSV:HTML:XLSX:PDF',
+    p_fixed_header          => 'REGION',
+    p_show_icon_view        => false,
+    p_show_detail_view      => false
   );
 
   wwv_flow_imp_page.create_region_column(
@@ -308,6 +334,47 @@ begin
     p_error_display_location => 'INLINE_IN_NOTIFICATION',
     p_process_success_message => 'Projects saved.'
   );
+
+  wwv_flow_imp_page.create_ig_report(
+    p_id                    => l_report_id,
+    p_flow_id               => &HUB_APP_ID,
+    p_page_id               => 30,
+    p_interactive_grid_id   => l_ig_id,
+    p_name                  => 'Primary Report',
+    p_static_id             => 'primary-report',
+    p_type                  => 'PRIMARY',
+    p_default_view          => 'GRID',
+    p_rows_per_page         => 50,
+    p_show_row_number       => false,
+    p_settings_area_expanded => false
+  );
+
+  wwv_flow_imp_page.create_ig_report_view(
+    p_id                    => l_view_id,
+    p_flow_id               => &HUB_APP_ID,
+    p_page_id               => 30,
+    p_report_id             => l_report_id,
+    p_view_type             => 'GRID',
+    p_stretch_columns       => true,
+    p_edit_mode             => true
+  );
+
+  for c in (
+    select column_id, display_sequence
+      from apex_260100.apex_appl_page_ig_columns
+     where application_id = &HUB_APP_ID
+       and page_id = 30
+     order by display_sequence
+  ) loop
+    wwv_flow_imp_page.create_ig_report_column(
+      p_id                  => wwv_flow_imp.id(to_number(to_char(&HUB_APP_ID) || '31' || lpad(c.display_sequence, 4, '0'))),
+      p_view_id             => l_view_id,
+      p_display_seq         => c.display_sequence,
+      p_column_id           => c.column_id,
+      p_is_visible          => true,
+      p_is_frozen           => false
+    );
+  end loop;
 end;
 /
 
