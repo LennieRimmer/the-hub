@@ -310,6 +310,21 @@ list navigation-menu (
         }
     )
 
+    entry projects-grid (
+        label: Projects Grid
+        icon {
+            imageIconCssClasses: fa-edit
+        }
+        layout {
+            sequence: 30
+        }
+        link {
+            target: {
+                page: 30
+            }
+        }
+    )
+
 )
 
 
@@ -1471,6 +1486,297 @@ page 20 (
         }
         advanced {
             executionMappingIdentifier: 100200020
+        }
+    )
+
+)
+
+
+page 30 (
+    name: Projects Grid
+    alias: PROJECTS-GRID
+    title: Projects Grid
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region projects-ig (
+        name: Projects
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: PROJECTS
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: @/standard
+            templateOptions: #DEFAULT#
+        }
+
+        column CATEGORY (
+            type: selectList
+            heading {
+                heading: Category
+                alternativeLabel: Category
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select category_name d, category_name r from thehub.categories order by category_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: CATEGORY
+                dataType: varchar2
+            }
+        )
+
+        column FINISH_DATE (
+            type: datePicker
+            heading {
+                heading: Finish Date
+                alternativeLabel: Finish Date
+            }
+            layout {
+                sequence: 70
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: FINISH_DATE
+                dataType: date
+            }
+        )
+
+        column GOAL (
+            type: selectList
+            heading {
+                heading: Goal
+                alternativeLabel: Goal
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select goal_name d, goal_name r from thehub.goals order by goal_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 100
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: GOAL
+                dataType: varchar2
+            }
+        )
+
+        column GO_LIVE_FLAG (
+            type: selectList
+            heading {
+                heading: Go Live
+                alternativeLabel: Go Live
+            }
+            lov {
+                type: staticValues
+                staticValues: STATIC:Yes;Yes,No;No
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 110
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: GO_LIVE_FLAG
+                dataType: varchar2
+            }
+        )
+
+        column INITIATIVE (
+            type: textField
+            heading {
+                heading: Initiative
+                alternativeLabel: Initiative
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 200
+            }
+            source {
+                databaseColumn: INITIATIVE
+                dataType: varchar2
+            }
+        )
+
+        column OWNER (
+            type: textField
+            heading {
+                heading: Owner
+                alternativeLabel: Owner
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                valueRequired: true
+                maxLength: 100
+            }
+            source {
+                databaseColumn: OWNER
+                dataType: varchar2
+            }
+        )
+
+        column PRIORITY (
+            type: selectList
+            heading {
+                heading: Priority
+                alternativeLabel: Priority
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select priority_name d, priority_name r from thehub.priorities order by priority_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 90
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: PRIORITY
+                dataType: varchar2
+            }
+        )
+
+        column PROJECT_ID (
+            type: textField
+            heading {
+                heading: Project ID
+                alternativeLabel: Project ID
+            }
+            layout {
+                sequence: 10
+            }
+            validation {
+                valueRequired: true
+                maxLength: 20
+            }
+            source {
+                databaseColumn: PROJECT_ID
+                dataType: varchar2
+                primaryKey: true
+            }
+        )
+
+        column START_DATE (
+            type: datePicker
+            heading {
+                heading: Start Date
+                alternativeLabel: Start Date
+            }
+            layout {
+                sequence: 60
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: START_DATE
+                dataType: date
+            }
+        )
+
+        column STATUS (
+            type: selectList
+            heading {
+                heading: Status
+                alternativeLabel: Status
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select status_name d, status_name r from thehub.statuses order by status_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: STATUS
+                dataType: varchar2
+            }
+        )
+
+        column WORKSTREAM (
+            type: selectList
+            heading {
+                heading: Workstream
+                alternativeLabel: Workstream
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select workstream_name d, workstream_name r from thehub.workstreams order by workstream_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 20
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: WORKSTREAM
+                dataType: varchar2
+            }
+        )
+
+    )
+
+    process projects-save-interactive-grid-data (
+        name: Projects - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @projects-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Projects saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100300900
         }
     )
 

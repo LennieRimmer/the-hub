@@ -92,5 +92,20 @@ list navigation-menu (
         }
     )
 
+    entry projects-grid (
+        label: Projects Grid
+        icon {
+            imageIconCssClasses: fa-edit
+        }
+        layout {
+            sequence: 30
+        }
+        link {
+            target: {
+                page: 30
+            }
+        }
+    )
+
 )
 
