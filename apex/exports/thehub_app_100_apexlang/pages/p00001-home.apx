@@ -70,10 +70,10 @@ page 1 (
             }
             .hub-window-controls {
               display: grid;
-              grid-template-columns: minmax(9rem, 11rem) 2.4rem minmax(10rem, 13rem) minmax(10rem, 13rem) 2.4rem auto;
+              grid-template-columns: minmax(9rem, 11rem) 2.4rem minmax(10rem, 13rem) minmax(10rem, 13rem) 2.4rem auto auto;
               gap: 8px;
               align-items: end;
-              max-width: 52rem;
+              max-width: 58rem;
               margin-top: 12px;
             }
             .hub-window-controls label {
@@ -266,6 +266,7 @@ page 1 (
                         <label>End <input id="hubPeriodEnd" type="date"></label>
                         <button id="hubPeriodNext" class="hub-step-button hub-step-forward" type="button" aria-label="Next period"></button>
                         <button id="hubApplyWindow" type="button">Apply</button>
+                        <button id="hubTodayWindow" type="button">Today</button>
                       </div>
                     </div>
                   </section>
@@ -299,6 +300,7 @@ page 1 (
                   const prevButton = document.getElementById('hubPeriodPrev');
                   const nextButton = document.getElementById('hubPeriodNext');
                   const applyButton = document.getElementById('hubApplyWindow');
+                  const todayButton = document.getElementById('hubTodayWindow');
                   const text = (id, value) => { document.getElementById(id).textContent = value; };
                   const esc = (value) => String(value == null ? '' : value).replace(/[<>"']/g, function (c) {
                     return {'<':'\u0026lt;','>':'\u0026gt;','"':'\u0026quot;',"'":'\u0026#39;'}[c];
@@ -358,6 +360,15 @@ page 1 (
                     applyButton.click();
                   }
                 
+                  function setTodayWindow() {
+                    const today = new Date();
+                    const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    frameInput.value = 'biweekly';
+                    startInput.value = iso(start);
+                    endInput.value = iso(addDays(start, 13));
+                    applyButton.click();
+                  }
+                
                   setWindow(frameInput.value, new Date());
                 
                   function renderMilestones(rows) {
@@ -410,6 +421,8 @@ page 1 (
                   nextButton.addEventListener('click', function () {
                     stepWindow(1);
                   });
+                
+                  todayButton.addEventListener('click', setTodayWindow);
                 
                   loadDashboard().catch(function (error) {
                     document.getElementById('hubMilestoneList').innerHTML = '<div class="hub-state">' + esc(error.message) + '</div>';

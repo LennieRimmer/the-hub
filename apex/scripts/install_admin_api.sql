@@ -204,7 +204,10 @@ create or replace package body thehub.admin_api as
     l_insert_cols clob;
     l_insert_vals clob;
     l_sql         clob;
-    l_sep         varchar2(2);
+    l_json_sep    varchar2(2);
+    l_select_sep  varchar2(2);
+    l_update_sep  varchar2(2);
+    l_insert_sep  varchar2(2);
   begin
     for c in (
       select column_name, data_type,
@@ -214,19 +217,22 @@ create or replace package body thehub.admin_api as
          and table_name = l_meta.table_name
        order by column_id
     ) loop
-      l_json_cols := l_json_cols || l_sep || c.column_name || ' varchar2(4000) path ''$.' || c.column_name || ''' null on error';
-      l_select_cols := l_select_cols || l_sep || value_expr(c.column_name, c.data_type) || ' ' || c.column_name;
+      l_json_cols := l_json_cols || l_json_sep || c.column_name || ' varchar2(4000) path ''$.' || c.column_name || ''' null on error';
+      l_select_cols := l_select_cols || l_select_sep || value_expr(c.column_name, c.data_type) || ' ' || c.column_name;
 
       if c.is_pk = 'N' then
-        l_update_set := l_update_set || l_sep || 't.' || c.column_name || ' = s.' || c.column_name;
+        l_update_set := l_update_set || l_update_sep || 't.' || c.column_name || ' = s.' || c.column_name;
+        l_update_sep := ', ';
       end if;
 
       if c.is_pk = 'N' or not l_meta.generated_pk then
-        l_insert_cols := l_insert_cols || l_sep || c.column_name;
-        l_insert_vals := l_insert_vals || l_sep || 's.' || c.column_name;
+        l_insert_cols := l_insert_cols || l_insert_sep || c.column_name;
+        l_insert_vals := l_insert_vals || l_insert_sep || 's.' || c.column_name;
+        l_insert_sep := ', ';
       end if;
 
-      l_sep := ', ';
+      l_json_sep := ', ';
+      l_select_sep := ', ';
     end loop;
 
     l_sql := 'merge into thehub.' || l_meta.table_name || ' t using (' ||

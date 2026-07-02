@@ -76,6 +76,14 @@ function hubBootDataAdmin() {
   const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
   const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
   const isLongText = (col) => col.name.indexOf('NOTES') >= 0 || col.name.indexOf('GUIDANCE') >= 0 || col.name.indexOf('MITIGATION') >= 0 || col.name.indexOf('PURPOSE') >= 0 || col.name.indexOf('APPLICABILITY') >= 0 || col.name.indexOf('DETAILS') >= 0;
+  const dateValue = (value) => {
+    const text = String(value == null ? '' : value).trim();
+    if (!text) return '';
+    const isoMatch = text.match(/^(\d{4}-\d{2}-\d{2})/);
+    if (isoMatch) return isoMatch[1];
+    const parsed = new Date(text);
+    return Number.isNaN(parsed.getTime()) ? '' : parsed.toISOString().slice(0, 10);
+  };
 
   if (!nav || !gridWrap || !title || !help) {
     return;
@@ -101,7 +109,7 @@ function hubBootDataAdmin() {
 
   function gridInput(row, col, rowIndex) {
     const value = row[col.name] == null ? '' : String(row[col.name]);
-    const shown = col.type === 'DATE' ? value.slice(0, 10) : value;
+    const shown = col.type === 'DATE' ? dateValue(value) : value;
     const readonly = col.generated ? ' readonly' : (col.pk ? (shown !== '' ? ' readonly' : '') : '');
     if (isLongText(col)) {
       return '<textarea class="hub-grid-input is-wrap" data-row="' + rowIndex + '" data-col="' + esc(col.name) + '"' + readonly + '>' + esc(shown) + '</textarea>';
@@ -194,7 +202,10 @@ function hubBootDataAdmin() {
     gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '<th>Actions</th></tr></thead><tbody>' +
       visibleRows.map(item => '<tr data-index="' + item.index + '"' + (state.selected === item.row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(item.row, c, item.index) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + item.index + '">Save</button><button type="button" class="hub-grid-delete" data-row="' + item.index + '">Delete</button></td></tr>').join('') +
       '</tbody></table>';
-    gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => {
+    gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', event => {
+      if (event.target.closest('input, textarea, button, select')) {
+        return;
+      }
       state.selected = state.rows[Number(tr.dataset.index)];
       renderGrid();
     }));
