@@ -46,7 +46,7 @@ function hubBootDataAdmin() {
   }
   window.hubDataAdminStarted = true;
 
-  const state = { catalog: [], active: null, rows: [], selected: null };
+  const state = { catalog: [], active: null, rows: [], selected: null, sort: { col: '', dir: 'asc' } };
   const nav = document.getElementById('hubTableNav');
   const gridWrap = document.getElementById('hubGridWrap');
   const title = document.getElementById('hubTableTitle');
@@ -54,8 +54,6 @@ function hubBootDataAdmin() {
   const newButton = document.getElementById('hubNew');
   const refreshButton = document.getElementById('hubRefresh');
   const filterInput = document.getElementById('hubGridFilter');
-  const sortSelect = document.getElementById('hubGridSort');
-  const sortDirection = document.getElementById('hubGridSortDirection');
   const entity = String.fromCharCode(38);
   const esc = (v) => String(v == null ? '' : v).replace(/[<>"']/g, c => ({
     '<': entity + 'lt;',
@@ -75,6 +73,7 @@ function hubBootDataAdmin() {
   const display = (value) => value == null ? '' : String(value).slice(0, 120);
   const columnInputType = (col) => col.type === 'DATE' ? 'date' : col.type === 'NUMBER' ? 'number' : 'text';
   const pkColumn = () => state.active ? (state.active.columns[0] ? state.active.columns[0].name : null) : null;
+  const visibleColumns = () => state.active ? state.active.columns.filter(col => !(col.generated ? col.type === 'NUMBER' : false)).slice(0, 10) : [];
   const isLongText = (col) => col.name.indexOf('NOTES') >= 0 || col.name.indexOf('GUIDANCE') >= 0 || col.name.indexOf('MITIGATION') >= 0 || col.name.indexOf('PURPOSE') >= 0 || col.name.indexOf('APPLICABILITY') >= 0 || col.name.indexOf('DETAILS') >= 0;
   const dateValue = (value) => {
     const text = String(value == null ? '' : value).trim();
@@ -111,6 +110,13 @@ function hubBootDataAdmin() {
     const value = row[col.name] == null ? '' : String(row[col.name]);
     const shown = col.type === 'DATE' ? dateValue(value) : value;
     const readonly = col.generated ? ' readonly' : (col.pk ? (shown !== '' ? ' readonly' : '') : '');
+    if (col.lov ? (col.lov.length ? !readonly : false) : false) {
+      const options = ['<option value=""></option>'].concat(col.lov.map(item => {
+        const selected = String(item.value) === shown ? ' selected' : '';
+        return '<option value="' + esc(item.value) + '"' + selected + '>' + esc(item.label || item.value) + '</option>';
+      }));
+      return '<select class="hub-grid-input" data-row="' + rowIndex + '" data-col="' + esc(col.name) + '">' + options.join('') + '</select>';
+    }
     if (isLongText(col)) {
       return '<textarea class="hub-grid-input is-wrap" data-row="' + rowIndex + '" data-col="' + esc(col.name) + '"' + readonly + '>' + esc(shown) + '</textarea>';
     }
@@ -129,8 +135,18 @@ function hubBootDataAdmin() {
   async function saveGridRow(rowIndex) {
     const row = syncGridRow(rowIndex);
     if (!state.active || !row) return;
+    const pk = pkColumn();
     await call('save', {x02: state.active.key, p_clob_01: JSON.stringify(row)});
-    await loadRows();
+    if (!pk || !row[pk]) {
+      await loadRows();
+      return;
+    }
+    const button = gridWrap.querySelector('.hub-grid-save[data-row="' + rowIndex + '"]');
+    if (button) {
+      button.textContent = 'Saved';
+      button.classList.remove('is-dirty');
+      window.setTimeout(() => { button.textContent = 'Save'; }, 1200);
+    }
   }
 
   async function deleteGridRow(rowIndex) {
@@ -159,8 +175,8 @@ function hubBootDataAdmin() {
 
   function filteredRows() {
     const term = filterInput ? filterInput.value.trim().toLowerCase() : '';
-    const sortCol = sortSelect ? sortSelect.value : '';
-    const dir = sortDirection ? sortDirection.value : 'asc';
+    const sortCol = state.sort.col;
+    const dir = state.sort.dir;
     let rows = state.rows.map((row, index) => ({ row, index }));
     if (term) {
       rows = rows.filter(item => Object.keys(item.row).some(key => String(item.row[key] == null ? '' : item.row[key]).toLowerCase().indexOf(term) >= 0));
@@ -176,20 +192,23 @@ function hubBootDataAdmin() {
     return rows;
   }
 
-  function updateGridControls() {
-    if (!state.active) return;
-    if (sortSelect) {
-      const current = sortSelect.value;
-      sortSelect.innerHTML = '<option value="">Default order</option>' + state.active.columns.map(col => '<option value="' + esc(col.name) + '">' + esc(col.label) + '</option>').join('');
-      if (current) {
-        sortSelect.value = current;
-      }
-    }
+  function sortHeader(col) {
+    const activeUp = state.sort.col === col.name ? (state.sort.dir === 'asc' ? ' is-active' : '') : '';
+    const activeDown = state.sort.col === col.name ? (state.sort.dir === 'desc' ? ' is-active' : '') : '';
+    return '<span class="hub-th-label">' + esc(col.label) + '</span><span class="hub-sort-buttons">' +
+      '<button type="button" class="hub-sort-button' + activeUp + '" data-sort-col="' + esc(col.name) + '" data-sort-dir="asc" aria-label="Sort ' + esc(col.label) + ' ascending">^</button>' +
+      '<button type="button" class="hub-sort-button' + activeDown + '" data-sort-col="' + esc(col.name) + '" data-sort-dir="desc" aria-label="Sort ' + esc(col.label) + ' descending">v</button>' +
+      '</span>';
+  }
+
+  function setSort(col, dir) {
+    state.sort = { col: col, dir: dir };
+    renderGrid();
   }
 
   function renderGrid() {
     if (!state.active) return;
-    const cols = state.active.columns.slice(0, 8);
+    const cols = visibleColumns();
     const visibleRows = filteredRows();
     if (!state.rows.length) {
       gridWrap.innerHTML = '<div class="hub-state">No rows found.</div>';
@@ -199,9 +218,13 @@ function hubBootDataAdmin() {
       gridWrap.innerHTML = '<div class="hub-state">No rows match the current filter.</div>';
       return;
     }
-    gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + esc(c.label) + '</th>').join('') + '<th>Actions</th></tr></thead><tbody>' +
+    gridWrap.innerHTML = '<table class="hub-grid"><thead><tr>' + cols.map(c => '<th>' + sortHeader(c) + '</th>').join('') + '<th class="hub-action-head">Actions</th></tr></thead><tbody>' +
       visibleRows.map(item => '<tr data-index="' + item.index + '"' + (state.selected === item.row ? ' class="is-selected"' : '') + '>' + cols.map(c => '<td>' + gridInput(item.row, c, item.index) + '</td>').join('') + '<td><button type="button" class="hub-grid-save" data-row="' + item.index + '">Save</button><button type="button" class="hub-grid-delete" data-row="' + item.index + '">Delete</button></td></tr>').join('') +
       '</tbody></table>';
+    gridWrap.querySelectorAll('.hub-sort-button').forEach(button => button.addEventListener('click', function (event) {
+      event.stopPropagation();
+      setSort(this.dataset.sortCol, this.dataset.sortDir);
+    }));
     gridWrap.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', event => {
       if (event.target.closest('input, textarea, button, select')) {
         return;
@@ -213,6 +236,11 @@ function hubBootDataAdmin() {
       const row = state.rows[Number(this.dataset.row)];
       if (row) {
         row[this.dataset.col] = this.value;
+        const button = gridWrap.querySelector('.hub-grid-save[data-row="' + this.dataset.row + '"]');
+        if (button) {
+          button.textContent = 'Save';
+          button.classList.add('is-dirty');
+        }
       }
     }));
     gridWrap.querySelectorAll('.hub-grid-save').forEach(button => button.addEventListener('click', function (event) {
@@ -253,7 +281,7 @@ function hubBootDataAdmin() {
     }
     title.textContent = state.active.label;
     help.textContent = state.active.group + ' / ' + state.active.table_name;
-    updateGridControls();
+    state.sort = { col: '', dir: 'asc' };
     renderNav();
     await loadRows();
   }
@@ -266,12 +294,6 @@ function hubBootDataAdmin() {
   }
   if (filterInput) {
     filterInput.addEventListener('input', renderGrid);
-  }
-  if (sortSelect) {
-    sortSelect.addEventListener('change', renderGrid);
-  }
-  if (sortDirection) {
-    sortDirection.addEventListener('change', renderGrid);
   }
   nav.querySelectorAll('button[data-table]').forEach(button => {
     button.addEventListener('click', () => selectTable(button.dataset.table));
@@ -397,9 +419,9 @@ hubBootDataAdmin();
 }
 .hub-grid-tools {
   display: grid;
-  grid-template-columns: minmax(12rem, 1fr) minmax(10rem, 14rem) minmax(7rem, 8rem);
+  grid-template-columns: minmax(12rem, 20rem);
   gap: 8px;
-  min-width: min(100%, 36rem);
+  min-width: min(100%, 20rem);
 }
 .hub-grid-tools label {
   display: grid;
@@ -408,8 +430,7 @@ hubBootDataAdmin();
   font-size: .72rem;
   font-weight: 800;
 }
-.hub-grid-tools input,
-.hub-grid-tools select {
+.hub-grid-tools input {
   min-height: 34px;
   border: 1px solid #cbd5df;
   border-radius: 4px;
@@ -445,6 +466,40 @@ hubBootDataAdmin();
   color: #52606d;
   font-size: .72rem;
   text-transform: uppercase;
+  min-width: 8rem;
+}
+.hub-th-label {
+  display: inline-block;
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.hub-sort-buttons {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.hub-sort-button {
+  width: 1.45rem;
+  height: 1.45rem;
+  border: 1px solid #cbd5df;
+  border-radius: 3px;
+  color: #52606d;
+  background: #ffffff;
+  line-height: 1;
+  padding: 0;
+  font-size: .78rem;
+  font-weight: 900;
+}
+.hub-sort-button.is-active {
+  border-color: #1f5eff;
+  color: #ffffff;
+  background: #1f5eff;
+}
+.hub-action-head {
+  min-width: 8rem;
 }
 .hub-grid tr {
   cursor: pointer;
@@ -462,6 +517,9 @@ hubBootDataAdmin();
   background: transparent;
   color: #111827;
   padding: 4px 6px;
+}
+select.hub-grid-input {
+  min-height: 34px;
 }
 .hub-grid-input.is-wrap {
   min-width: 18rem;
@@ -486,6 +544,11 @@ hubBootDataAdmin();
   padding: 0 9px;
   font-weight: 800;
 }
+.hub-grid-save.is-dirty {
+  border-color: #ac5f00;
+  background: #fff7ed;
+  color: #7c2d12;
+}
 .hub-grid-delete {
   min-height: 30px;
   border: 1px solid #d8a9a9;
@@ -495,6 +558,16 @@ hubBootDataAdmin();
   padding: 0 9px;
   font-weight: 800;
   margin-left: 5px;
+}
+.hub-grid td:last-child,
+.hub-grid th:last-child {
+  position: sticky;
+  right: 0;
+  background: #ffffff;
+  box-shadow: -8px 0 12px rgba(15, 23, 42, .06);
+}
+.hub-grid th:last-child {
+  background: #f8fafc;
 }
 .hub-state {
   padding: 16px;
@@ -576,8 +649,6 @@ hubBootDataAdmin();
       <div class="hub-actions">
         <div class="hub-grid-tools">
           <label>Filter <input id="hubGridFilter" type="search" placeholder="Find rows"></label>
-          <label>Sort <select id="hubGridSort"><option value="">Default order</option></select></label>
-          <label>Order <select id="hubGridSortDirection"><option value="asc">Asc</option><option value="desc">Desc</option></select></label>
         </div>
         <button type="button" id="hubRefresh">Refresh</button>
         <button type="button" class="is-primary" id="hubNew">New</button>

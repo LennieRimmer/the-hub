@@ -78,6 +78,92 @@ create or replace package body thehub.admin_api as
     end loop;
   end write_clob;
 
+  procedure write_lov_item(p_value varchar2, p_label varchar2) is
+  begin
+    apex_json.open_object;
+    apex_json.write('value', p_value);
+    apex_json.write('label', p_label);
+    apex_json.close_object;
+  end write_lov_item;
+
+  procedure write_lov(p_table_name varchar2, p_column_name varchar2) is
+  begin
+    apex_json.open_array('lov');
+
+    if p_column_name in ('MEMBER_ID', 'PRIMARY_MEMBER_ID') then
+      for r in (
+        select to_char(member_id) value, full_name label
+          from thehub.team_members
+         where active_flag = 'Y'
+         order by full_name
+      ) loop
+        write_lov_item(r.value, r.label);
+      end loop;
+    elsif p_column_name = 'PROJECT_ID' and p_table_name in ('MILESTONES', 'RISK_REGISTER') then
+      for r in (
+        select project_id value, project_id || ' - ' || initiative label
+          from thehub.projects
+         order by project_id
+      ) loop
+        write_lov_item(r.value, r.label);
+      end loop;
+    elsif p_column_name = 'WORKSTREAM' then
+      for r in (select workstream_name value from thehub.workstreams order by workstream_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'CATEGORY' then
+      for r in (select category_name value from thehub.categories order by category_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'STATUS' and p_table_name = 'MEETINGS' then
+      for r in (select status_name value from thehub.meeting_statuses order by status_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'STATUS' then
+      for r in (select status_name value from thehub.statuses order by status_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'PRIORITY' then
+      for r in (select priority_name value from thehub.priorities order by priority_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'GOAL' then
+      for r in (select goal_name value from thehub.goals order by goal_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'CADENCE' then
+      for r in (select cadence_name value from thehub.cadences order by cadence_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'MEETING_TYPE' then
+      for r in (select type_name value from thehub.meeting_types order by type_name) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name in ('GO_LIVE_FLAG', 'INCLUDE_FLAG', 'CONFLICT_FLAG', 'ACTIVE_FLAG') then
+      write_lov_item('Yes', 'Yes');
+      write_lov_item('No', 'No');
+    elsif p_column_name in ('PROBABILITY', 'IMPACT') then
+      write_lov_item('Low', 'Low');
+      write_lov_item('Medium', 'Medium');
+      write_lov_item('High', 'High');
+    elsif p_column_name = 'RELEASE_TYPE' then
+      for r in (
+        select distinct release_type value
+          from thehub.oracle_security_patches
+         where release_type is not null
+         order by release_type
+      ) loop
+        write_lov_item(r.value, r.value);
+      end loop;
+    elsif p_column_name = 'PLANNING_USE' then
+      write_lov_item('Quarterly', 'Quarterly');
+      write_lov_item('Monthly', 'Monthly');
+      write_lov_item('Reference', 'Reference');
+    end if;
+
+    apex_json.close_array;
+  end write_lov;
+
   procedure catalog is
   begin
     begin_json;
@@ -161,6 +247,7 @@ create or replace package body thehub.admin_api as
         apex_json.write('required', c.nullable = 'N' and c.generated_flag = 'N');
         apex_json.write('generated', c.generated_flag = 'Y');
         apex_json.write('pk', c.pk_flag = 'Y');
+        write_lov(t.table_name, c.column_name);
         apex_json.close_object;
       end loop;
       apex_json.close_array;

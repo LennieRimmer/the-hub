@@ -100,7 +100,7 @@ begin
 }
 .hub-window-controls {
   display: grid;
-  grid-template-columns: minmax(9rem, 11rem) 2.4rem minmax(10rem, 13rem) minmax(10rem, 13rem) 2.4rem auto auto;
+  grid-template-columns: auto minmax(9rem, 11rem) 2.4rem minmax(10rem, 13rem) minmax(10rem, 13rem) 2.4rem auto;
   gap: 8px;
   align-items: end;
   max-width: 58rem;
@@ -142,6 +142,10 @@ begin
   border-color: #cbd5df;
   background: #eef2f6;
   color: #8a95a3;
+}
+.hub-window-controls .hub-today-button {
+  border-color: #0f766e;
+  background: #0f766e;
 }
 .hub-step-button {
   width: 2.4rem;
@@ -289,13 +293,13 @@ begin
       </div>
       <p>DBA planning command center for projects, milestones, coverage, meetings, and Oracle patch windows.</p>
       <div class="hub-window-controls">
+        <button id="hubTodayWindow" class="hub-today-button" type="button">Today</button>
         <label>Frame <select id="hubPeriodFrame"><option value="weekly">Weekly</option><option value="biweekly">Biweekly</option><option value="monthly">Monthly</option><option value="quarterly" selected>Quarterly</option><option value="yearly">Yearly</option></select></label>
         <button id="hubPeriodPrev" class="hub-step-button hub-step-back" type="button" aria-label="Previous period"></button>
         <label>Start <input id="hubPeriodStart" type="date"></label>
         <label>End <input id="hubPeriodEnd" type="date"></label>
         <button id="hubPeriodNext" class="hub-step-button hub-step-forward" type="button" aria-label="Next period"></button>
         <button id="hubApplyWindow" type="button">Apply</button>
-        <button id="hubTodayWindow" type="button">Today</button>
       </div>
     </div>
   </section>
