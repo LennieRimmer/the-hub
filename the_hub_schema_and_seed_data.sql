@@ -316,6 +316,16 @@ CREATE TABLE leave (
   notes       VARCHAR2(500)
 );
 
+CREATE UNIQUE INDEX leave_uq_member_date_fact
+  ON leave (
+    member_id,
+    leave_date,
+    hours,
+    NVL(time_type, '~'),
+    NVL(status, '~'),
+    NVL(notes, '~')
+  );
+
 INSERT INTO leave (member_id, leave_date, hours, time_type, status, notes) VALUES ((SELECT member_id FROM team_members WHERE full_name = 'Aneshia Price'), DATE '2026-06-01', 7.75, 'Vacation', 'Approved', NULL);
 INSERT INTO leave (member_id, leave_date, hours, time_type, status, notes) VALUES ((SELECT member_id FROM team_members WHERE full_name = 'David Barth'), DATE '2026-06-08', 7.75, 'Vacation', 'Approved', NULL);
 INSERT INTO leave (member_id, leave_date, hours, time_type, status, notes) VALUES ((SELECT member_id FROM team_members WHERE full_name = 'David Barth'), DATE '2026-06-09', 7.75, 'Vacation', 'Approved', NULL);
