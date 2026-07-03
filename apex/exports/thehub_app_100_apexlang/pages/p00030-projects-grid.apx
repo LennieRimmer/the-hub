@@ -55,7 +55,6 @@ page 30 (
         toolbar {
             controls: [
                 searchField
-                actionsMenu
                 saveButton
             ]
         }

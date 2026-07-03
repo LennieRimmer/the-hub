@@ -93,7 +93,7 @@ begin
     p_add_row_if_empty      => true,
     p_lazy_loading          => false,
     p_show_toolbar          => true,
-    p_toolbar_buttons       => 'SEARCH_FIELD:ACTIONS_MENU:SAVE',
+    p_toolbar_buttons       => 'SEARCH_FIELD:SAVE',
     p_enable_save_public_report => false,
     p_enable_subscriptions  => false,
     p_enable_flashback      => false,
