@@ -1503,6 +1503,20 @@ page 30 (
     navigation {
         cursorFocus: doNotFocusCursor
     }
+    css {
+        inline:
+            ```css
+            #projects-ig .a-IG,
+            #projects-ig .a-GV {
+              min-height: 34rem;
+            }
+            #projects-ig .a-GV-w-scroll {
+              max-height: calc(100vh - 260px);
+              min-height: 30rem;
+            }
+            
+            ```
+    }
     security {
         pageAccessProtection: argumentsMustHaveChecksum
         formAutoComplete: false
@@ -1553,6 +1567,7 @@ page 30 (
         }
         heading {
             fixedTo: region
+            fixedReportHeight: 640
         }
         advanced {
             savedReportMappingIdentifier: 100300020

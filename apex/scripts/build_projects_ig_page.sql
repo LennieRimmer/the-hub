@@ -39,7 +39,17 @@ begin
     p_step_template         => 4073832297226169690,
     p_page_template_options => '#DEFAULT#',
     p_protection_level      => 'C',
-    p_page_component_map    => '03'
+    p_page_component_map    => '03',
+    p_inline_css            => q'~
+#projects-ig .a-IG,
+#projects-ig .a-GV {
+  min-height: 34rem;
+}
+#projects-ig .a-GV-w-scroll {
+  max-height: calc(100vh - 260px);
+  min-height: 30rem;
+}
+~'
   );
 end;
 /
@@ -91,6 +101,7 @@ begin
     p_enable_download       => true,
     p_download_formats      => 'CSV:HTML:XLSX:PDF',
     p_fixed_header          => 'REGION',
+    p_fixed_header_max_height => 640,
     p_show_icon_view        => false,
     p_show_detail_view      => false
   );
@@ -104,6 +115,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_TEXT_FIELD',
+    p_is_visible            => true,
     p_heading               => 'Project ID',
     p_label                 => 'Project ID',
     p_display_sequence      => 10,
@@ -123,6 +135,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_SELECT_LIST',
+    p_is_visible            => true,
     p_heading               => 'Workstream',
     p_label                 => 'Workstream',
     p_display_sequence      => 20,
@@ -145,6 +158,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_TEXT_FIELD',
+    p_is_visible            => true,
     p_heading               => 'Initiative',
     p_label                 => 'Initiative',
     p_display_sequence      => 30,
@@ -163,6 +177,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_SELECT_LIST',
+    p_is_visible            => true,
     p_heading               => 'Category',
     p_label                 => 'Category',
     p_display_sequence      => 40,
@@ -185,6 +200,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_TEXT_FIELD',
+    p_is_visible            => true,
     p_heading               => 'Owner',
     p_label                 => 'Owner',
     p_display_sequence      => 50,
@@ -203,6 +219,7 @@ begin
     p_data_type             => 'DATE',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_DATE_PICKER_APEX',
+    p_is_visible            => true,
     p_heading               => 'Start Date',
     p_label                 => 'Start Date',
     p_display_sequence      => 60,
@@ -221,6 +238,7 @@ begin
     p_data_type             => 'DATE',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_DATE_PICKER_APEX',
+    p_is_visible            => true,
     p_heading               => 'Finish Date',
     p_label                 => 'Finish Date',
     p_display_sequence      => 70,
@@ -239,6 +257,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_SELECT_LIST',
+    p_is_visible            => true,
     p_heading               => 'Status',
     p_label                 => 'Status',
     p_display_sequence      => 80,
@@ -261,6 +280,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_SELECT_LIST',
+    p_is_visible            => true,
     p_heading               => 'Priority',
     p_label                 => 'Priority',
     p_display_sequence      => 90,
@@ -283,6 +303,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_SELECT_LIST',
+    p_is_visible            => true,
     p_heading               => 'Goal',
     p_label                 => 'Goal',
     p_display_sequence      => 100,
@@ -305,6 +326,7 @@ begin
     p_data_type             => 'VARCHAR2',
     p_session_state_data_type => 'VARCHAR2',
     p_item_type             => 'NATIVE_SELECT_LIST',
+    p_is_visible            => true,
     p_heading               => 'Go Live',
     p_label                 => 'Go Live',
     p_display_sequence      => 110,
