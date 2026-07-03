@@ -213,6 +213,19 @@ breadcrumb breadcrumb (
         }
     )
 
+    entry projects-interactive-grid (
+        name: Projects Interactive Grid
+        pageNumber: 40
+        execution {
+            sequence: 10
+        }
+        link {
+            target: {
+                page: 40
+            }
+        }
+    )
+
 )
 
 
@@ -321,6 +334,25 @@ list navigation-menu (
         link {
             target: {
                 page: 30
+            }
+        }
+    )
+
+    entry projects-interactive-grid (
+        label: Projects Interactive Grid
+        icon {
+            imageIconCssClasses: fa-table-pointer
+        }
+        layout {
+            sequence: 40
+        }
+        isCurrent {
+            type: pages
+            pages: 40
+        }
+        link {
+            target: {
+                page: 40
             }
         }
     )
@@ -1945,6 +1977,466 @@ page 30 (
         }
         advanced {
             executionMappingIdentifier: 100300900
+        }
+    )
+
+)
+
+
+page 40 (
+    name: Projects Interactive Grid
+    alias: PROJECTS-INTERACTIVE-GRID
+    title: Projects Interactive Grid
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region breadcrumb (
+        name: Breadcrumb
+        type: breadcrumb
+        source {
+            breadcrumb: @breadcrumb
+        }
+        layout {
+            sequence: 10
+            slot: breadcrumbBar
+        }
+        appearance {
+            template: @/title-bar
+            templateOptions: [
+                #DEFAULT#
+                t-BreadcrumbRegion--useBreadcrumbTitle
+            ]
+        }
+        componentAppearance {
+            breadcrumbTemplate: @/breadcrumb
+            templateOptions: #DEFAULT#
+        }
+    )
+
+    region projects-interactive-grid (
+        name: Projects Interactive Grid
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableName: PROJECTS
+        }
+        layout {
+            sequence: 20
+            slot: body
+        }
+        appearance {
+            template: @/interactive-report
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 6439445066299616
+        }
+
+        savedReport primary (
+            visibility: primary
+            view {
+                default: grid
+            }
+            singleRowView {
+                displayedColumns: true
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @PROJECT_ID
+                layout {
+                    sequence: 1
+                }
+            )
+
+            displayColumn (
+                column: @WORKSTREAM
+                layout {
+                    sequence: 2
+                }
+            )
+
+            displayColumn (
+                column: @INITIATIVE
+                layout {
+                    sequence: 3
+                }
+            )
+
+            displayColumn (
+                column: @CATEGORY
+                layout {
+                    sequence: 4
+                }
+            )
+
+            displayColumn (
+                column: @OWNER
+                layout {
+                    sequence: 5
+                }
+            )
+
+            displayColumn (
+                column: @START_DATE
+                layout {
+                    sequence: 6
+                }
+            )
+
+            displayColumn (
+                column: @FINISH_DATE
+                layout {
+                    sequence: 7
+                }
+            )
+
+            displayColumn (
+                column: @STATUS
+                layout {
+                    sequence: 8
+                }
+            )
+
+            displayColumn (
+                column: @PRIORITY
+                layout {
+                    sequence: 9
+                }
+            )
+
+            displayColumn (
+                column: @GOAL
+                layout {
+                    sequence: 10
+                }
+            )
+
+            displayColumn (
+                column: @GO_LIVE_FLAG
+                layout {
+                    sequence: 11
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CATEGORY (
+            type: textField
+            heading {
+                heading: Category
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: CATEGORY
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column FINISH_DATE (
+            type: datePicker
+            heading {
+                heading: Finish Date
+            }
+            layout {
+                sequence: 90
+            }
+            source {
+                databaseColumn: FINISH_DATE
+                dataType: date
+            }
+        )
+
+        column GOAL (
+            type: textField
+            heading {
+                heading: Goal
+            }
+            layout {
+                sequence: 120
+            }
+            validation {
+                maxLength: 150
+            }
+            source {
+                databaseColumn: GOAL
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column GO_LIVE_FLAG (
+            type: textField
+            heading {
+                heading: Go Live Flag
+            }
+            layout {
+                sequence: 130
+            }
+            validation {
+                maxLength: 3
+            }
+            source {
+                databaseColumn: GO_LIVE_FLAG
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column INITIATIVE (
+            type: textField
+            heading {
+                heading: Initiative
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                valueRequired: true
+                maxLength: 200
+            }
+            source {
+                databaseColumn: INITIATIVE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column OWNER (
+            type: textField
+            heading {
+                heading: Owner
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: OWNER
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column PRIORITY (
+            type: textField
+            heading {
+                heading: Priority
+            }
+            layout {
+                sequence: 110
+            }
+            validation {
+                maxLength: 50
+            }
+            source {
+                databaseColumn: PRIORITY
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column PROJECT_ID (
+            type: hidden
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: PROJECT_ID
+                dataType: varchar2
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+        )
+
+        column START_DATE (
+            type: datePicker
+            heading {
+                heading: Start Date
+            }
+            layout {
+                sequence: 80
+            }
+            source {
+                databaseColumn: START_DATE
+                dataType: date
+            }
+        )
+
+        column STATUS (
+            type: textField
+            heading {
+                heading: Status
+            }
+            layout {
+                sequence: 100
+            }
+            validation {
+                maxLength: 50
+            }
+            source {
+                databaseColumn: STATUS
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        column WORKSTREAM (
+            type: textField
+            heading {
+                heading: Workstream
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: WORKSTREAM
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    startsWith
+                    caseInsensitive
+                    regexp
+                ]
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process projects-interactive-grid-save-interactive-grid-data (
+        name: Projects Interactive Grid - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @projects-interactive-grid
+        execution {
+            sequence: 10
+        }
+        advanced {
+            executionMappingIdentifier: 6453069489299657
         }
     )
 
