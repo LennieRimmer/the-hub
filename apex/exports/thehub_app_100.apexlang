@@ -293,6 +293,36 @@ list navigation-bar (
 list navigation-menu (
     name: Navigation Menu
 
+    entry cadences (
+        label: Cadences
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 75
+        }
+        link {
+            target: {
+                page: 75
+            }
+        }
+    )
+
+    entry categories (
+        label: Categories
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 73
+        }
+        link {
+            target: {
+                page: 73
+            }
+        }
+    )
+
     entry data-admin (
         label: Data Admin
         icon {
@@ -308,6 +338,66 @@ list navigation-menu (
         }
     )
 
+    entry dependencies (
+        label: Dependencies
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 58
+        }
+        link {
+            target: {
+                page: 58
+            }
+        }
+    )
+
+    entry goals (
+        label: Goals
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 74
+        }
+        link {
+            target: {
+                page: 74
+            }
+        }
+    )
+
+    entry holiday-notes (
+        label: Holiday Notes
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 57
+        }
+        link {
+            target: {
+                page: 57
+            }
+        }
+    )
+
+    entry holidays (
+        label: Holidays
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 56
+        }
+        link {
+            target: {
+                page: 56
+            }
+        }
+    )
+
     entry home (
         label: Home
         icon {
@@ -319,6 +409,111 @@ list navigation-menu (
         link {
             target: {
                 page: 1
+            }
+        }
+    )
+
+    entry leave (
+        label: Leave
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 52
+        }
+        link {
+            target: {
+                page: 52
+            }
+        }
+    )
+
+    entry meeting-statuses (
+        label: Meeting Statuses
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 76
+        }
+        link {
+            target: {
+                page: 76
+            }
+        }
+    )
+
+    entry meeting-types (
+        label: Meeting Types
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 77
+        }
+        link {
+            target: {
+                page: 77
+            }
+        }
+    )
+
+    entry meetings (
+        label: Meetings
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 50
+        }
+        link {
+            target: {
+                page: 50
+            }
+        }
+    )
+
+    entry milestones (
+        label: Milestones
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 51
+        }
+        link {
+            target: {
+                page: 51
+            }
+        }
+    )
+
+    entry on-call (
+        label: On Call
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 53
+        }
+        link {
+            target: {
+                page: 53
+            }
+        }
+    )
+
+    entry priorities (
+        label: Priorities
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 71
+        }
+        link {
+            target: {
+                page: 71
             }
         }
     )
@@ -353,6 +548,111 @@ list navigation-menu (
         link {
             target: {
                 page: 40
+            }
+        }
+    )
+
+    entry report-timeframes (
+        label: Report Timeframes
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 78
+        }
+        link {
+            target: {
+                page: 78
+            }
+        }
+    )
+
+    entry risk-register (
+        label: Risk Register
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 59
+        }
+        link {
+            target: {
+                page: 59
+            }
+        }
+    )
+
+    entry ru-calendar (
+        label: RU Calendar
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 55
+        }
+        link {
+            target: {
+                page: 55
+            }
+        }
+    )
+
+    entry security-patches (
+        label: Security Patches
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 54
+        }
+        link {
+            target: {
+                page: 54
+            }
+        }
+    )
+
+    entry statuses (
+        label: Statuses
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 70
+        }
+        link {
+            target: {
+                page: 70
+            }
+        }
+    )
+
+    entry team-members (
+        label: Team Members
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 60
+        }
+        link {
+            target: {
+                page: 60
+            }
+        }
+    )
+
+    entry workstreams (
+        label: Workstreams
+        icon {
+            imageIconCssClasses: fa-table
+        }
+        layout {
+            sequence: 72
+        }
+        link {
+            target: {
+                page: 72
             }
         }
     )
@@ -2437,6 +2737,5720 @@ page 40 (
         }
         advanced {
             executionMappingIdentifier: 6453069489299657
+        }
+    )
+
+)
+
+
+page 50 (
+    name: Meetings
+    alias: MEETINGS
+    title: Meetings
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region meetings-ig (
+        name: Meetings
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: MEETINGS
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100500020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @MEETING_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @MEETING_NAME
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @MEETING_DATE
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @START_TIME
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @WORKSPACE_PROJECT
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @AUDIENCE_OWNER
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @CADENCE
+                layout {
+                    sequence: 90
+                }
+            )
+
+            displayColumn (
+                column: @MEETING_TYPE
+                layout {
+                    sequence: 100
+                }
+            )
+
+            displayColumn (
+                column: @PURPOSE_NOTES
+                layout {
+                    sequence: 110
+                }
+            )
+
+            displayColumn (
+                column: @STATUS
+                layout {
+                    sequence: 120
+                }
+            )
+
+            displayColumn (
+                column: @INCLUDE_FLAG
+                layout {
+                    sequence: 130
+                }
+            )
+
+            displayColumn (
+                column: @REPORT_RANK
+                layout {
+                    sequence: 140
+                }
+            )
+
+            displayColumn (
+                column: @DASHBOARD_RANK
+                layout {
+                    sequence: 150
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column AUDIENCE_OWNER (
+            type: textField
+            heading {
+                heading: Audience Owner
+                alternativeLabel: Audience Owner
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                maxLength: 150
+            }
+            source {
+                databaseColumn: AUDIENCE_OWNER
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: audience-owner
+            }
+        )
+
+        column CADENCE (
+            type: selectList
+            heading {
+                heading: Cadence
+                alternativeLabel: Cadence
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select cadence_name d, cadence_name r from thehub.cadences order by sort_order nulls last, cadence_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 90
+            }
+            source {
+                databaseColumn: CADENCE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: cadence
+            }
+        )
+
+        column DASHBOARD_RANK (
+            type: textField
+            heading {
+                heading: Dashboard Rank
+                alternativeLabel: Dashboard Rank
+            }
+            layout {
+                sequence: 150
+            }
+            source {
+                databaseColumn: DASHBOARD_RANK
+                dataType: number
+            }
+            advanced {
+                htmlDomId: dashboard-rank
+            }
+        )
+
+        column INCLUDE_FLAG (
+            type: selectList
+            heading {
+                heading: Include Flag
+                alternativeLabel: Include Flag
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select 'Yes' d, 'Y' r from dual union all select 'No' d, 'N' r from dual
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 130
+            }
+            source {
+                databaseColumn: INCLUDE_FLAG
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: include-flag
+            }
+        )
+
+        column MEETING_DATE (
+            type: datePicker
+            heading {
+                heading: Meeting Date
+                alternativeLabel: Meeting Date
+            }
+            layout {
+                sequence: 50
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: MEETING_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: meeting-date
+            }
+        )
+
+        column MEETING_ID (
+            type: hidden
+            heading {
+                heading: Meeting Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: MEETING_ID
+                dataType: number
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: meeting-id
+            }
+        )
+
+        column MEETING_NAME (
+            type: textField
+            heading {
+                heading: Meeting Name
+                alternativeLabel: Meeting Name
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+                maxLength: 200
+            }
+            source {
+                databaseColumn: MEETING_NAME
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: meeting-name
+            }
+        )
+
+        column MEETING_TYPE (
+            type: selectList
+            heading {
+                heading: Meeting Type
+                alternativeLabel: Meeting Type
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select type_name d, type_name r from thehub.meeting_types order by sort_order nulls last, type_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 100
+            }
+            source {
+                databaseColumn: MEETING_TYPE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: meeting-type
+            }
+        )
+
+        column PURPOSE_NOTES (
+            type: textField
+            heading {
+                heading: Purpose Notes
+                alternativeLabel: Purpose Notes
+            }
+            layout {
+                sequence: 110
+            }
+            validation {
+                maxLength: 1000
+            }
+            source {
+                databaseColumn: PURPOSE_NOTES
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: purpose-notes
+            }
+        )
+
+        column REPORT_RANK (
+            type: textField
+            heading {
+                heading: Report Rank
+                alternativeLabel: Report Rank
+            }
+            layout {
+                sequence: 140
+            }
+            source {
+                databaseColumn: REPORT_RANK
+                dataType: number
+            }
+            advanced {
+                htmlDomId: report-rank
+            }
+        )
+
+        column START_TIME (
+            type: textField
+            heading {
+                heading: Start Time
+                alternativeLabel: Start Time
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 20
+            }
+            source {
+                databaseColumn: START_TIME
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: start-time
+            }
+        )
+
+        column STATUS (
+            type: selectList
+            heading {
+                heading: Status
+                alternativeLabel: Status
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select status_name d, status_name r from thehub.meeting_statuses order by sort_order nulls last, status_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 120
+            }
+            source {
+                databaseColumn: STATUS
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: status
+            }
+        )
+
+        column WORKSPACE_PROJECT (
+            type: textField
+            heading {
+                heading: Workspace Project
+                alternativeLabel: Workspace Project
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 200
+            }
+            source {
+                databaseColumn: WORKSPACE_PROJECT
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: workspace-project
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process meetings-save-interactive-grid-data (
+        name: Meetings - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @meetings-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Meetings saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100500900
+        }
+    )
+
+)
+
+
+page 51 (
+    name: Milestones
+    alias: MILESTONES
+    title: Milestones
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region milestones-ig (
+        name: Milestones
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: MILESTONES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100510020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @MILESTONE_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @PROJECT_ID
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @MILESTONE_NAME
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @MILESTONE_DATE
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @CATEGORY
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @MILESTONE_TYPE
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @OWNER
+                layout {
+                    sequence: 90
+                }
+            )
+
+            displayColumn (
+                column: @PRIORITY
+                layout {
+                    sequence: 100
+                }
+            )
+
+            displayColumn (
+                column: @NOTES
+                layout {
+                    sequence: 110
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CATEGORY (
+            type: selectList
+            heading {
+                heading: Category
+                alternativeLabel: Category
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select category_name d, category_name r from thehub.categories order by sort_order nulls last, category_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 70
+            }
+            source {
+                databaseColumn: CATEGORY
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: category
+            }
+        )
+
+        column MILESTONE_DATE (
+            type: datePicker
+            heading {
+                heading: Milestone Date
+                alternativeLabel: Milestone Date
+            }
+            layout {
+                sequence: 60
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: MILESTONE_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: milestone-date
+            }
+        )
+
+        column MILESTONE_ID (
+            type: hidden
+            heading {
+                heading: Milestone Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: MILESTONE_ID
+                dataType: number
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: milestone-id
+            }
+        )
+
+        column MILESTONE_NAME (
+            type: textField
+            heading {
+                heading: Milestone Name
+                alternativeLabel: Milestone Name
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                valueRequired: true
+                maxLength: 200
+            }
+            source {
+                databaseColumn: MILESTONE_NAME
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: milestone-name
+            }
+        )
+
+        column MILESTONE_TYPE (
+            type: textField
+            heading {
+                heading: Milestone Type
+                alternativeLabel: Milestone Type
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: MILESTONE_TYPE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: milestone-type
+            }
+        )
+
+        column NOTES (
+            type: textField
+            heading {
+                heading: Notes
+                alternativeLabel: Notes
+            }
+            layout {
+                sequence: 110
+            }
+            validation {
+                maxLength: 2000
+            }
+            source {
+                databaseColumn: NOTES
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: notes
+            }
+        )
+
+        column OWNER (
+            type: textField
+            heading {
+                heading: Owner
+                alternativeLabel: Owner
+            }
+            layout {
+                sequence: 90
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: OWNER
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: owner
+            }
+        )
+
+        column PRIORITY (
+            type: selectList
+            heading {
+                heading: Priority
+                alternativeLabel: Priority
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select priority_name d, priority_name r from thehub.priorities order by sort_order nulls last, priority_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 100
+            }
+            source {
+                databaseColumn: PRIORITY
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: priority
+            }
+        )
+
+        column PROJECT_ID (
+            type: selectList
+            heading {
+                heading: Project Id
+                alternativeLabel: Project Id
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select project_id || ' - ' || initiative d, project_id r from thehub.projects order by project_id
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: PROJECT_ID
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: project-id
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process milestones-save-interactive-grid-data (
+        name: Milestones - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @milestones-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Milestones saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100510900
+        }
+    )
+
+)
+
+
+page 52 (
+    name: Leave
+    alias: LEAVE
+    title: Leave
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region leave-ig (
+        name: Leave
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: LEAVE
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100520020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @LEAVE_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @MEMBER_ID
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @LEAVE_DATE
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @HOURS
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @TIME_TYPE
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @STATUS
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @NOTES
+                layout {
+                    sequence: 90
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column HOURS (
+            type: textField
+            heading {
+                heading: Hours
+                alternativeLabel: Hours
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: HOURS
+                dataType: number
+            }
+            advanced {
+                htmlDomId: hours
+            }
+        )
+
+        column LEAVE_DATE (
+            type: datePicker
+            heading {
+                heading: Leave Date
+                alternativeLabel: Leave Date
+            }
+            layout {
+                sequence: 50
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: LEAVE_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: leave-date
+            }
+        )
+
+        column LEAVE_ID (
+            type: hidden
+            heading {
+                heading: Leave Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: LEAVE_ID
+                dataType: number
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: leave-id
+            }
+        )
+
+        column MEMBER_ID (
+            type: selectList
+            heading {
+                heading: Member Id
+                alternativeLabel: Member Id
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select full_name d, member_id r from thehub.team_members order by full_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: MEMBER_ID
+                dataType: number
+            }
+            advanced {
+                htmlDomId: member-id
+            }
+        )
+
+        column NOTES (
+            type: textField
+            heading {
+                heading: Notes
+                alternativeLabel: Notes
+            }
+            layout {
+                sequence: 90
+            }
+            validation {
+                maxLength: 500
+            }
+            source {
+                databaseColumn: NOTES
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: notes
+            }
+        )
+
+        column STATUS (
+            type: selectList
+            heading {
+                heading: Status
+                alternativeLabel: Status
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select status_name d, status_name r from thehub.statuses order by sort_order nulls last, status_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 80
+            }
+            source {
+                databaseColumn: STATUS
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: status
+            }
+        )
+
+        column TIME_TYPE (
+            type: textField
+            heading {
+                heading: Time Type
+                alternativeLabel: Time Type
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 50
+            }
+            source {
+                databaseColumn: TIME_TYPE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: time-type
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process leave-save-interactive-grid-data (
+        name: Leave - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @leave-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Leave saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100520900
+        }
+    )
+
+)
+
+
+page 53 (
+    name: On Call
+    alias: ON-CALL
+    title: On Call
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region on-call-ig (
+        name: On Call
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: ON_CALL
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100530020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @ON_CALL_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @WEEK_START
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @WEEK_END
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @PRIMARY_MEMBER_ID
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @PATTERN_SOURCE
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @CONFLICT_FLAG
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @CONFLICT_DETAILS
+                layout {
+                    sequence: 90
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CONFLICT_DETAILS (
+            type: textField
+            heading {
+                heading: Conflict Details
+                alternativeLabel: Conflict Details
+            }
+            layout {
+                sequence: 90
+            }
+            validation {
+                maxLength: 500
+            }
+            source {
+                databaseColumn: CONFLICT_DETAILS
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: conflict-details
+            }
+        )
+
+        column CONFLICT_FLAG (
+            type: selectList
+            heading {
+                heading: Conflict Flag
+                alternativeLabel: Conflict Flag
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select 'Yes' d, 'Y' r from dual union all select 'No' d, 'N' r from dual
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 80
+            }
+            source {
+                databaseColumn: CONFLICT_FLAG
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: conflict-flag
+            }
+        )
+
+        column ON_CALL_ID (
+            type: hidden
+            heading {
+                heading: On Call Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: ON_CALL_ID
+                dataType: number
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: on-call-id
+            }
+        )
+
+        column PATTERN_SOURCE (
+            type: textField
+            heading {
+                heading: Pattern Source
+                alternativeLabel: Pattern Source
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 200
+            }
+            source {
+                databaseColumn: PATTERN_SOURCE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: pattern-source
+            }
+        )
+
+        column PRIMARY_MEMBER_ID (
+            type: selectList
+            heading {
+                heading: Primary Member Id
+                alternativeLabel: Primary Member Id
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select full_name d, member_id r from thehub.team_members order by full_name
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 60
+            }
+            source {
+                databaseColumn: PRIMARY_MEMBER_ID
+                dataType: number
+            }
+            advanced {
+                htmlDomId: primary-member-id
+            }
+        )
+
+        column WEEK_END (
+            type: datePicker
+            heading {
+                heading: Week End
+                alternativeLabel: Week End
+            }
+            layout {
+                sequence: 50
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: WEEK_END
+                dataType: date
+            }
+            advanced {
+                htmlDomId: week-end
+            }
+        )
+
+        column WEEK_START (
+            type: datePicker
+            heading {
+                heading: Week Start
+                alternativeLabel: Week Start
+            }
+            layout {
+                sequence: 40
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: WEEK_START
+                dataType: date
+            }
+            advanced {
+                htmlDomId: week-start
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process on-call-save-interactive-grid-data (
+        name: On Call - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @on-call-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: On Call saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100530900
+        }
+    )
+
+)
+
+
+page 54 (
+    name: Oracle Security Patches
+    alias: ORACLE-SECURITY-PATCHES
+    title: Oracle Security Patches
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region oracle-security-patches-ig (
+        name: Oracle Security Patches
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: ORACLE_SECURITY_PATCHES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100540020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @PATCH_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @RELEASE_MONTH
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @RELEASE_DATE
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @PATCH_CODE
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @RELEASE_TYPE
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @PLANNING_USE
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @GUIDANCE
+                layout {
+                    sequence: 90
+                }
+            )
+
+            displayColumn (
+                column: @APPLICABILITY
+                layout {
+                    sequence: 100
+                }
+            )
+
+            displayColumn (
+                column: @SOURCE_NOTE
+                layout {
+                    sequence: 110
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column APPLICABILITY (
+            type: textField
+            heading {
+                heading: Applicability
+                alternativeLabel: Applicability
+            }
+            layout {
+                sequence: 100
+            }
+            validation {
+                maxLength: 2000
+            }
+            source {
+                databaseColumn: APPLICABILITY
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: applicability
+            }
+        )
+
+        column GUIDANCE (
+            type: textField
+            heading {
+                heading: Guidance
+                alternativeLabel: Guidance
+            }
+            layout {
+                sequence: 90
+            }
+            validation {
+                maxLength: 2000
+            }
+            source {
+                databaseColumn: GUIDANCE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: guidance
+            }
+        )
+
+        column PATCH_CODE (
+            type: textField
+            heading {
+                heading: Patch Code
+                alternativeLabel: Patch Code
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 20
+            }
+            source {
+                databaseColumn: PATCH_CODE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: patch-code
+            }
+        )
+
+        column PATCH_ID (
+            type: hidden
+            heading {
+                heading: Patch Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: PATCH_ID
+                dataType: number
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: patch-id
+            }
+        )
+
+        column PLANNING_USE (
+            type: textField
+            heading {
+                heading: Planning Use
+                alternativeLabel: Planning Use
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                maxLength: 200
+            }
+            source {
+                databaseColumn: PLANNING_USE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: planning-use
+            }
+        )
+
+        column RELEASE_DATE (
+            type: datePicker
+            heading {
+                heading: Release Date
+                alternativeLabel: Release Date
+            }
+            layout {
+                sequence: 50
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: RELEASE_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: release-date
+            }
+        )
+
+        column RELEASE_MONTH (
+            type: textField
+            heading {
+                heading: Release Month
+                alternativeLabel: Release Month
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                maxLength: 20
+            }
+            source {
+                databaseColumn: RELEASE_MONTH
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: release-month
+            }
+        )
+
+        column RELEASE_TYPE (
+            type: textField
+            heading {
+                heading: Release Type
+                alternativeLabel: Release Type
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: RELEASE_TYPE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: release-type
+            }
+        )
+
+        column SOURCE_NOTE (
+            type: textField
+            heading {
+                heading: Source Note
+                alternativeLabel: Source Note
+            }
+            layout {
+                sequence: 110
+            }
+            validation {
+                maxLength: 500
+            }
+            source {
+                databaseColumn: SOURCE_NOTE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: source-note
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process oracle-security-patches-save-interactive-grid-data (
+        name: Oracle Security Patches - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @oracle-security-patches-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Oracle Security Patches saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100540900
+        }
+    )
+
+)
+
+
+page 55 (
+    name: Oracle RU Calendar
+    alias: ORACLE-RU-CALENDAR
+    title: Oracle RU Calendar
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region oracle-ru-calendar-ig (
+        name: Oracle RU Calendar
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: ORACLE_RU_CALENDAR
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100550020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @RU
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @CPU_RU_RELEASE_DATE
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @GOLDEN_IMAGE_DATE
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @CSPU_REFERENCE
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @CSPU_DATE
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @LATEST_MRP
+                layout {
+                    sequence: 80
+                }
+            )
+
+            displayColumn (
+                column: @MRP_DATE
+                layout {
+                    sequence: 90
+                }
+            )
+
+            displayColumn (
+                column: @DUST_START
+                layout {
+                    sequence: 100
+                }
+            )
+
+            displayColumn (
+                column: @DUST_END
+                layout {
+                    sequence: 110
+                }
+            )
+
+            displayColumn (
+                column: @PROD_START
+                layout {
+                    sequence: 120
+                }
+            )
+
+            displayColumn (
+                column: @PROD_END
+                layout {
+                    sequence: 130
+                }
+            )
+
+            displayColumn (
+                column: @STABILIZATION_END
+                layout {
+                    sequence: 140
+                }
+            )
+
+            displayColumn (
+                column: @GOLDEN_IMAGE_GUIDANCE
+                layout {
+                    sequence: 150
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CPU_RU_RELEASE_DATE (
+            type: datePicker
+            heading {
+                heading: Cpu Ru Release Date
+                alternativeLabel: Cpu Ru Release Date
+            }
+            layout {
+                sequence: 40
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: CPU_RU_RELEASE_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: cpu-ru-release-date
+            }
+        )
+
+        column CSPU_DATE (
+            type: datePicker
+            heading {
+                heading: Cspu Date
+                alternativeLabel: Cspu Date
+            }
+            layout {
+                sequence: 70
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: CSPU_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: cspu-date
+            }
+        )
+
+        column CSPU_REFERENCE (
+            type: textField
+            heading {
+                heading: Cspu Reference
+                alternativeLabel: Cspu Reference
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 50
+            }
+            source {
+                databaseColumn: CSPU_REFERENCE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: cspu-reference
+            }
+        )
+
+        column DUST_END (
+            type: datePicker
+            heading {
+                heading: Dust End
+                alternativeLabel: Dust End
+            }
+            layout {
+                sequence: 110
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: DUST_END
+                dataType: date
+            }
+            advanced {
+                htmlDomId: dust-end
+            }
+        )
+
+        column DUST_START (
+            type: datePicker
+            heading {
+                heading: Dust Start
+                alternativeLabel: Dust Start
+            }
+            layout {
+                sequence: 100
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: DUST_START
+                dataType: date
+            }
+            advanced {
+                htmlDomId: dust-start
+            }
+        )
+
+        column GOLDEN_IMAGE_DATE (
+            type: datePicker
+            heading {
+                heading: Golden Image Date
+                alternativeLabel: Golden Image Date
+            }
+            layout {
+                sequence: 50
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: GOLDEN_IMAGE_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: golden-image-date
+            }
+        )
+
+        column GOLDEN_IMAGE_GUIDANCE (
+            type: textField
+            heading {
+                heading: Golden Image Guidance
+                alternativeLabel: Golden Image Guidance
+            }
+            layout {
+                sequence: 150
+            }
+            validation {
+                maxLength: 2000
+            }
+            source {
+                databaseColumn: GOLDEN_IMAGE_GUIDANCE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: golden-image-guidance
+            }
+        )
+
+        column LATEST_MRP (
+            type: textField
+            heading {
+                heading: Latest Mrp
+                alternativeLabel: Latest Mrp
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                maxLength: 50
+            }
+            source {
+                databaseColumn: LATEST_MRP
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: latest-mrp
+            }
+        )
+
+        column MRP_DATE (
+            type: datePicker
+            heading {
+                heading: Mrp Date
+                alternativeLabel: Mrp Date
+            }
+            layout {
+                sequence: 90
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: MRP_DATE
+                dataType: date
+            }
+            advanced {
+                htmlDomId: mrp-date
+            }
+        )
+
+        column PROD_END (
+            type: datePicker
+            heading {
+                heading: Prod End
+                alternativeLabel: Prod End
+            }
+            layout {
+                sequence: 130
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: PROD_END
+                dataType: date
+            }
+            advanced {
+                htmlDomId: prod-end
+            }
+        )
+
+        column PROD_START (
+            type: datePicker
+            heading {
+                heading: Prod Start
+                alternativeLabel: Prod Start
+            }
+            layout {
+                sequence: 120
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: PROD_START
+                dataType: date
+            }
+            advanced {
+                htmlDomId: prod-start
+            }
+        )
+
+        column RU (
+            type: textField
+            heading {
+                heading: Ru
+                alternativeLabel: Ru
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 20
+            }
+            source {
+                databaseColumn: RU
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: ru
+            }
+        )
+
+        column STABILIZATION_END (
+            type: datePicker
+            heading {
+                heading: Stabilization End
+                alternativeLabel: Stabilization End
+            }
+            layout {
+                sequence: 140
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            source {
+                databaseColumn: STABILIZATION_END
+                dataType: date
+            }
+            advanced {
+                htmlDomId: stabilization-end
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process oracle-ru-calendar-save-interactive-grid-data (
+        name: Oracle RU Calendar - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @oracle-ru-calendar-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Oracle RU Calendar saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100550900
+        }
+    )
+
+)
+
+
+page 56 (
+    name: Holidays
+    alias: HOLIDAYS
+    title: Holidays
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region holidays-ig (
+        name: Holidays
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: HOLIDAYS
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100560020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @HOLIDAY_DATE
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @HOLIDAY_NAME
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @HOLIDAY_YEAR
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @INCLUDED_FLAG
+                layout {
+                    sequence: 60
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column HOLIDAY_DATE (
+            type: datePicker
+            heading {
+                heading: Holiday Date
+                alternativeLabel: Holiday Date
+            }
+            layout {
+                sequence: 30
+            }
+            appearance {
+                formatMask: YYYY-MM-DD
+            }
+            validation {
+                valueRequired: true
+            }
+            source {
+                databaseColumn: HOLIDAY_DATE
+                dataType: date
+                primaryKey: true
+            }
+            advanced {
+                htmlDomId: holiday-date
+            }
+        )
+
+        column HOLIDAY_NAME (
+            type: textField
+            heading {
+                heading: Holiday Name
+                alternativeLabel: Holiday Name
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+                maxLength: 150
+            }
+            source {
+                databaseColumn: HOLIDAY_NAME
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: holiday-name
+            }
+        )
+
+        column HOLIDAY_YEAR (
+            type: textField
+            heading {
+                heading: Holiday Year
+                alternativeLabel: Holiday Year
+            }
+            layout {
+                sequence: 50
+            }
+            source {
+                databaseColumn: HOLIDAY_YEAR
+                dataType: number
+            }
+            advanced {
+                htmlDomId: holiday-year
+            }
+        )
+
+        column INCLUDED_FLAG (
+            type: textField
+            heading {
+                heading: Included Flag
+                alternativeLabel: Included Flag
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 20
+            }
+            source {
+                databaseColumn: INCLUDED_FLAG
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: included-flag
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process holidays-save-interactive-grid-data (
+        name: Holidays - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @holidays-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Holidays saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100560900
+        }
+    )
+
+)
+
+
+page 57 (
+    name: Holiday Notes
+    alias: HOLIDAY-NOTES
+    title: Holiday Notes
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region holiday-notes-ig (
+        name: Holiday Notes
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: HOLIDAY_NOTES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100570020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @NOTE_KEY
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @NOTE_TEXT
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column NOTE_KEY (
+            type: textField
+            heading {
+                heading: Note Key
+                alternativeLabel: Note Key
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 100
+            }
+            source {
+                databaseColumn: NOTE_KEY
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: note-key
+            }
+        )
+
+        column NOTE_TEXT (
+            type: textField
+            heading {
+                heading: Note Text
+                alternativeLabel: Note Text
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+                maxLength: 1000
+            }
+            source {
+                databaseColumn: NOTE_TEXT
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: note-text
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process holiday-notes-save-interactive-grid-data (
+        name: Holiday Notes - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @holiday-notes-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Holiday Notes saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100570900
+        }
+    )
+
+)
+
+
+page 58 (
+    name: Dependencies
+    alias: DEPENDENCIES
+    title: Dependencies
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region dependencies-ig (
+        name: Dependencies
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: DEPENDENCIES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100580020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @DEPENDENCY_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @PREDECESSOR
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @SUCCESSOR
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @NOTES
+                layout {
+                    sequence: 60
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column DEPENDENCY_ID (
+            type: hidden
+            heading {
+                heading: Dependency Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: DEPENDENCY_ID
+                dataType: varchar2
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: dependency-id
+            }
+        )
+
+        column NOTES (
+            type: textField
+            heading {
+                heading: Notes
+                alternativeLabel: Notes
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 1000
+            }
+            source {
+                databaseColumn: NOTES
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: notes
+            }
+        )
+
+        column PREDECESSOR (
+            type: textField
+            heading {
+                heading: Predecessor
+                alternativeLabel: Predecessor
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                maxLength: 200
+            }
+            source {
+                databaseColumn: PREDECESSOR
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: predecessor
+            }
+        )
+
+        column SUCCESSOR (
+            type: textField
+            heading {
+                heading: Successor
+                alternativeLabel: Successor
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                maxLength: 200
+            }
+            source {
+                databaseColumn: SUCCESSOR
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: successor
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process dependencies-save-interactive-grid-data (
+        name: Dependencies - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @dependencies-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Dependencies saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100580900
+        }
+    )
+
+)
+
+
+page 59 (
+    name: Risk Register
+    alias: RISK-REGISTER
+    title: Risk Register
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region risk-register-ig (
+        name: Risk Register
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: RISK_REGISTER
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100590020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @RISK_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @PROJECT_ID
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @RISK
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @PROBABILITY
+                layout {
+                    sequence: 60
+                }
+            )
+
+            displayColumn (
+                column: @IMPACT
+                layout {
+                    sequence: 70
+                }
+            )
+
+            displayColumn (
+                column: @MITIGATION
+                layout {
+                    sequence: 80
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column IMPACT (
+            type: textField
+            heading {
+                heading: Impact
+                alternativeLabel: Impact
+            }
+            layout {
+                sequence: 70
+            }
+            validation {
+                maxLength: 20
+            }
+            source {
+                databaseColumn: IMPACT
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: impact
+            }
+        )
+
+        column MITIGATION (
+            type: textField
+            heading {
+                heading: Mitigation
+                alternativeLabel: Mitigation
+            }
+            layout {
+                sequence: 80
+            }
+            validation {
+                maxLength: 1000
+            }
+            source {
+                databaseColumn: MITIGATION
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: mitigation
+            }
+        )
+
+        column PROBABILITY (
+            type: textField
+            heading {
+                heading: Probability
+                alternativeLabel: Probability
+            }
+            layout {
+                sequence: 60
+            }
+            validation {
+                maxLength: 20
+            }
+            source {
+                databaseColumn: PROBABILITY
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: probability
+            }
+        )
+
+        column PROJECT_ID (
+            type: selectList
+            heading {
+                heading: Project Id
+                alternativeLabel: Project Id
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select project_id || ' - ' || initiative d, project_id r from thehub.projects order by project_id
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: PROJECT_ID
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: project-id
+            }
+        )
+
+        column RISK (
+            type: textField
+            heading {
+                heading: Risk
+                alternativeLabel: Risk
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                maxLength: 500
+            }
+            source {
+                databaseColumn: RISK
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: risk
+            }
+        )
+
+        column RISK_ID (
+            type: hidden
+            heading {
+                heading: Risk Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: RISK_ID
+                dataType: varchar2
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: risk-id
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process risk-register-save-interactive-grid-data (
+        name: Risk Register - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @risk-register-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Risk Register saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100590900
+        }
+    )
+
+)
+
+
+page 60 (
+    name: Team Members
+    alias: TEAM-MEMBERS
+    title: Team Members
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region team-members-ig (
+        name: Team Members
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: TEAM_MEMBERS
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100600020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @MEMBER_ID
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @FULL_NAME
+                layout {
+                    sequence: 40
+                }
+            )
+
+            displayColumn (
+                column: @ROLE
+                layout {
+                    sequence: 50
+                }
+            )
+
+            displayColumn (
+                column: @ACTIVE_FLAG
+                layout {
+                    sequence: 60
+                }
+            )
+
+        )
+
+        column ACTIVE_FLAG (
+            type: selectList
+            heading {
+                heading: Active Flag
+                alternativeLabel: Active Flag
+            }
+            lov {
+                type: sqlQuery
+                sqlQuery: select 'Yes' d, 'Y' r from dual union all select 'No' d, 'N' r from dual
+                displayExtraValues: false
+            }
+            layout {
+                sequence: 60
+            }
+            source {
+                databaseColumn: ACTIVE_FLAG
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: active-flag
+            }
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column FULL_NAME (
+            type: textField
+            heading {
+                heading: Full Name
+                alternativeLabel: Full Name
+            }
+            layout {
+                sequence: 40
+            }
+            validation {
+                valueRequired: true
+                maxLength: 100
+            }
+            source {
+                databaseColumn: FULL_NAME
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: full-name
+            }
+        )
+
+        column MEMBER_ID (
+            type: hidden
+            heading {
+                heading: Member Id
+            }
+            layout {
+                sequence: 30
+            }
+            source {
+                databaseColumn: MEMBER_ID
+                dataType: number
+                primaryKey: true
+            }
+            exportPrinting {
+                includeInExportPrint: false
+            }
+            advanced {
+                htmlDomId: member-id
+            }
+        )
+
+        column ROLE (
+            type: textField
+            heading {
+                heading: Role
+                alternativeLabel: Role
+            }
+            layout {
+                sequence: 50
+            }
+            validation {
+                maxLength: 100
+            }
+            source {
+                databaseColumn: ROLE
+                dataType: varchar2
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: role
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process team-members-save-interactive-grid-data (
+        name: Team Members - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @team-members-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Team Members saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100600900
+        }
+    )
+
+)
+
+
+page 70 (
+    name: Statuses
+    alias: STATUSES
+    title: Statuses
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region statuses-ig (
+        name: Statuses
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: STATUSES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100700020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @STATUS_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        column STATUS_NAME (
+            type: textField
+            heading {
+                heading: Status Name
+                alternativeLabel: Status Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 50
+            }
+            source {
+                databaseColumn: STATUS_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: status-name
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process statuses-save-interactive-grid-data (
+        name: Statuses - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @statuses-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Statuses saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100700900
+        }
+    )
+
+)
+
+
+page 71 (
+    name: Priorities
+    alias: PRIORITIES
+    title: Priorities
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region priorities-ig (
+        name: Priorities
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: PRIORITIES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100710020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @PRIORITY_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column PRIORITY_NAME (
+            type: textField
+            heading {
+                heading: Priority Name
+                alternativeLabel: Priority Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 50
+            }
+            source {
+                databaseColumn: PRIORITY_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: priority-name
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process priorities-save-interactive-grid-data (
+        name: Priorities - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @priorities-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Priorities saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100710900
+        }
+    )
+
+)
+
+
+page 72 (
+    name: Workstreams
+    alias: WORKSTREAMS
+    title: Workstreams
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region workstreams-ig (
+        name: Workstreams
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: WORKSTREAMS
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100720020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @WORKSTREAM_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        column WORKSTREAM_NAME (
+            type: textField
+            heading {
+                heading: Workstream Name
+                alternativeLabel: Workstream Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 100
+            }
+            source {
+                databaseColumn: WORKSTREAM_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: workstream-name
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process workstreams-save-interactive-grid-data (
+        name: Workstreams - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @workstreams-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Workstreams saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100720900
+        }
+    )
+
+)
+
+
+page 73 (
+    name: Categories
+    alias: CATEGORIES
+    title: Categories
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region categories-ig (
+        name: Categories
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: CATEGORIES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100730020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @CATEGORY_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CATEGORY_NAME (
+            type: textField
+            heading {
+                heading: Category Name
+                alternativeLabel: Category Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 100
+            }
+            source {
+                databaseColumn: CATEGORY_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: category-name
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process categories-save-interactive-grid-data (
+        name: Categories - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @categories-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Categories saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100730900
+        }
+    )
+
+)
+
+
+page 74 (
+    name: Goals
+    alias: GOALS
+    title: Goals
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region goals-ig (
+        name: Goals
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: GOALS
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100740020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @GOAL_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column GOAL_NAME (
+            type: textField
+            heading {
+                heading: Goal Name
+                alternativeLabel: Goal Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 150
+            }
+            source {
+                databaseColumn: GOAL_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: goal-name
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process goals-save-interactive-grid-data (
+        name: Goals - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @goals-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Goals saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100740900
+        }
+    )
+
+)
+
+
+page 75 (
+    name: Cadences
+    alias: CADENCES
+    title: Cadences
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region cadences-ig (
+        name: Cadences
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: CADENCES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100750020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @CADENCE_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column CADENCE_NAME (
+            type: textField
+            heading {
+                heading: Cadence Name
+                alternativeLabel: Cadence Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 50
+            }
+            source {
+                databaseColumn: CADENCE_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: cadence-name
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process cadences-save-interactive-grid-data (
+        name: Cadences - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @cadences-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Cadences saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100750900
+        }
+    )
+
+)
+
+
+page 76 (
+    name: Meeting Statuses
+    alias: MEETING-STATUSES
+    title: Meeting Statuses
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region meeting-statuses-ig (
+        name: Meeting Statuses
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: MEETING_STATUSES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100760020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @STATUS_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        column STATUS_NAME (
+            type: textField
+            heading {
+                heading: Status Name
+                alternativeLabel: Status Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 50
+            }
+            source {
+                databaseColumn: STATUS_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: status-name
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process meeting-statuses-save-interactive-grid-data (
+        name: Meeting Statuses - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @meeting-statuses-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Meeting Statuses saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100760900
+        }
+    )
+
+)
+
+
+page 77 (
+    name: Meeting Types
+    alias: MEETING-TYPES
+    title: Meeting Types
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region meeting-types-ig (
+        name: Meeting Types
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: MEETING_TYPES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100770020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @TYPE_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        column TYPE_NAME (
+            type: textField
+            heading {
+                heading: Type Name
+                alternativeLabel: Type Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 100
+            }
+            source {
+                databaseColumn: TYPE_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: type-name
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process meeting-types-save-interactive-grid-data (
+        name: Meeting Types - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @meeting-types-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Meeting Types saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100770900
+        }
+    )
+
+)
+
+
+page 78 (
+    name: Report Timeframes
+    alias: REPORT-TIMEFRAMES
+    title: Report Timeframes
+    appearance {
+        pageTemplate: @/standard
+        templateOptions: #DEFAULT#
+    }
+    navigation {
+        cursorFocus: doNotFocusCursor
+    }
+    security {
+        pageAccessProtection: argumentsMustHaveChecksum
+        formAutoComplete: false
+    }
+
+    region report-timeframes-ig (
+        name: Report Timeframes
+        type: interactiveGrid
+        source {
+            location: localDatabase
+            tableOwner: THEHUB
+            tableName: REPORT_TIMEFRAMES
+        }
+        layout {
+            sequence: 10
+            slot: body
+        }
+        appearance {
+            template: 2100526641005906379
+            templateOptions: [
+                #DEFAULT#
+                t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+            ]
+        }
+        edit {
+            enabled: true
+            allowedOperations: [
+                add
+                update
+                delete
+            ]
+        }
+        toolbar {
+            controls: [
+                searchCol
+                searchField
+                actionsMenu
+                resetButton
+                saveButton
+            ]
+        }
+        enableUsersTo {
+            flashback: false
+            defineChartView: false
+        }
+        download {
+            formats: [
+                csv
+                html
+                excel
+                pdf
+            ]
+        }
+        advanced {
+            savedReportMappingIdentifier: 100780020
+        }
+
+        savedReport (
+            visibility: primary
+            view {
+                default: grid
+            }
+
+            displayColumn (
+                column: @APEX$ROW_ACTION
+                layout {
+                    sequence: 0
+                }
+            )
+
+            displayColumn (
+                column: @TIMEFRAME_NAME
+                layout {
+                    sequence: 30
+                }
+            )
+
+            displayColumn (
+                column: @SORT_ORDER
+                layout {
+                    sequence: 40
+                }
+            )
+
+        )
+
+        column APEX$ROW_ACTION (
+            type: actionsMenu
+            layout {
+                sequence: 20
+            }
+        )
+
+        column APEX$ROW_SELECTOR (
+            type: rowSelector
+            layout {
+                sequence: 10
+            }
+        )
+
+        column SORT_ORDER (
+            type: textField
+            heading {
+                heading: Sort Order
+                alternativeLabel: Sort Order
+            }
+            layout {
+                sequence: 40
+            }
+            source {
+                databaseColumn: SORT_ORDER
+                dataType: number
+            }
+            advanced {
+                htmlDomId: sort-order
+            }
+        )
+
+        column TIMEFRAME_NAME (
+            type: textField
+            heading {
+                heading: Timeframe Name
+                alternativeLabel: Timeframe Name
+            }
+            layout {
+                sequence: 30
+            }
+            validation {
+                valueRequired: true
+                maxLength: 50
+            }
+            source {
+                databaseColumn: TIMEFRAME_NAME
+                dataType: varchar2
+                primaryKey: true
+            }
+            columnFilter {
+                performanceImpactingOperators: [
+                    contains
+                    NC
+                    EQ
+                    NEQ
+                    N
+                    NN
+                ]
+            }
+            advanced {
+                htmlDomId: timeframe-name
+            }
+        )
+
+        page {
+            borderWidth: 0.5
+            borderColor: #666666
+        }
+    )
+
+    process report-timeframes-save-interactive-grid-data (
+        name: Report Timeframes - Save Interactive Grid Data
+        type: interactiveGridAutoRowProcessing
+        editableRegion: @report-timeframes-ig
+        execution {
+            sequence: 10
+        }
+        successMessage {
+            successMessage: Report Timeframes saved.
+        }
+        advanced {
+            executionMappingIdentifier: 100780900
         }
     )
 
