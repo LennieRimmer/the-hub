@@ -1682,6 +1682,9 @@ page 30 (
                 databaseColumn: CATEGORY
                 dataType: varchar2
             }
+            advanced {
+                htmlDomId: category
+            }
         )
 
         column FINISH_DATE (
@@ -1702,6 +1705,9 @@ page 30 (
             source {
                 databaseColumn: FINISH_DATE
                 dataType: date
+            }
+            advanced {
+                htmlDomId: finish-date
             }
         )
 
@@ -1726,28 +1732,30 @@ page 30 (
                 databaseColumn: GOAL
                 dataType: varchar2
             }
+            advanced {
+                htmlDomId: goal
+            }
         )
 
         column GO_LIVE_FLAG (
-            type: selectList
+            type: textField
             heading {
                 heading: Go Live
                 alternativeLabel: Go Live
-            }
-            lov {
-                type: staticValues
-                staticValues: STATIC:Yes;Yes,No;No
-                displayExtraValues: false
             }
             layout {
                 sequence: 110
             }
             validation {
                 valueRequired: true
+                maxLength: 3
             }
             source {
                 databaseColumn: GO_LIVE_FLAG
                 dataType: varchar2
+            }
+            advanced {
+                htmlDomId: go-live-flag
             }
         )
 
@@ -1768,6 +1776,9 @@ page 30 (
                 databaseColumn: INITIATIVE
                 dataType: varchar2
             }
+            advanced {
+                htmlDomId: initiative
+            }
         )
 
         column OWNER (
@@ -1786,6 +1797,9 @@ page 30 (
             source {
                 databaseColumn: OWNER
                 dataType: varchar2
+            }
+            advanced {
+                htmlDomId: owner
             }
         )
 
@@ -1810,6 +1824,9 @@ page 30 (
                 databaseColumn: PRIORITY
                 dataType: varchar2
             }
+            advanced {
+                htmlDomId: priority
+            }
         )
 
         column PROJECT_ID (
@@ -1829,6 +1846,9 @@ page 30 (
                 databaseColumn: PROJECT_ID
                 dataType: varchar2
                 primaryKey: true
+            }
+            advanced {
+                htmlDomId: project-id
             }
         )
 
@@ -1850,6 +1870,9 @@ page 30 (
             source {
                 databaseColumn: START_DATE
                 dataType: date
+            }
+            advanced {
+                htmlDomId: start-date
             }
         )
 
@@ -1874,6 +1897,9 @@ page 30 (
                 databaseColumn: STATUS
                 dataType: varchar2
             }
+            advanced {
+                htmlDomId: status
+            }
         )
 
         column WORKSTREAM (
@@ -1896,6 +1922,9 @@ page 30 (
             source {
                 databaseColumn: WORKSTREAM
                 dataType: varchar2
+            }
+            advanced {
+                htmlDomId: workstream
             }
         )
 
