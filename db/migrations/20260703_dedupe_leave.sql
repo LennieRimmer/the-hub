@@ -60,36 +60,38 @@ begin
       end if;
   end;
 
-  insert into thehub.leave_dedupe_backup (
-    leave_id,
-    member_id,
-    leave_date,
-    hours,
-    time_type,
-    status,
-    notes
-  )
-  select leave_id,
-         member_id,
-         leave_date,
-         hours,
-         time_type,
-         status,
-         notes
-    from (
-      select l.*,
-             row_number() over (
-               partition by member_id,
-                            leave_date,
-                            hours,
-                            nvl(time_type, '~'),
-                            nvl(status, '~'),
-                            nvl(notes, '~')
-               order by leave_id
-             ) rn
-        from thehub.leave l
+  execute immediate q'[
+    insert into thehub.leave_dedupe_backup (
+      leave_id,
+      member_id,
+      leave_date,
+      hours,
+      time_type,
+      status,
+      notes
     )
-   where rn > 1;
+    select leave_id,
+           member_id,
+           leave_date,
+           hours,
+           time_type,
+           status,
+           notes
+      from (
+        select l.*,
+               row_number() over (
+                 partition by member_id,
+                              leave_date,
+                              hours,
+                              nvl(time_type, '~'),
+                              nvl(status, '~'),
+                              nvl(notes, '~')
+                 order by leave_id
+               ) rn
+          from thehub.leave l
+      )
+     where rn > 1
+  ]';
 
   l_backup_count := sql%rowcount;
   dbms_output.put_line('Duplicate rows backed up this run: ' || l_backup_count);
